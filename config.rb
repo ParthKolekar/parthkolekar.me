@@ -5,6 +5,16 @@ activate :autoprefixer do |prefix|
   prefix.browsers = "last 2 versions"
 end
 
+data.errors.each do |e|
+  proxy "error/#{e[:code]}.html", "error.html", :locals => { 
+    :status_code => e[:code],
+    :short => e[:short],
+    :long => e[:long],
+    :urlobtainer => e[:urlobtainer]
+  }, 
+  :ignore => true
+end
+
 # Syntax highlight
 activate :syntax
 

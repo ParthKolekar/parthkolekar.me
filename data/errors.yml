@@ -1,0 +1,150 @@
+---
+- code: 400
+  short: Bad Request
+  long: Your browser sent a request that this server could not understand.
+  urlobtainer: false
+- code: 401
+  short: Unauthorized
+  long: This server could not verify that you are authorized to access the document requested. Either you supplied the wrong credentials (e.g., bad password), or your browser doesn't understand how to supply the credentials required.
+  urlobtainer: false
+- code: 402
+  short: Payment Required 
+  long:   
+- code: 403
+  short: Forbidden 
+  long: You don't have permission to access <span id="location"></span> on this server.
+  urlobtainer: true
+- code: 404
+  short: Not Found 
+  long: The requested URL <span id="location"></span> was not found on this server.
+  urlobtainer: true
+- code: 405
+  short: Method Not Allowed 
+  long: The requested method is not allowed for the URL <span id="location"></span>.
+  urlobtainer: true
+- code: 406
+  short: Not Acceptable 
+  long: An appropriate representation of the requested resource <span id="location"></span> could not be found on this server.
+  urlobtainer: true
+- code: 407
+  short: Proxy Authentication Required 
+  long: This server could not verify that you are authorized to access the document requested. Either you supplied the wrong credentials (e.g., bad password), or your browser doesn't understand how to supply the credentials required.
+  urlobtainer: false
+- code: 408
+  short: Request Timeout 
+  long: Server timeout waiting for the HTTP request from the client.
+  urlobtainer: false
+- code: 409
+  short: Conflict 
+  long:   
+- code: 410
+  short: Gone 
+  long: The requested resource <span id="location"></span> is no longer available on this server and there is no forwarding address. Please remove all references to this resource.
+  urlobtainer: true
+- code: 411
+  short: Length Required 
+  long: A request of the requested method requires a valid Content-length.
+  urlobtainer: false
+- code: 412
+  short: Precondition Failed 
+  long: The precondition on the request for the URL <span id="location"></span> evaluated to false.
+  urlobtainer: true
+- code: 413
+  short: Request Entity Too Large 
+  long: The requested resource <span id="location"></span> does not allow request data, or the amount of data provided in the request exceeds the capacity limit.
+  urlobtainer: true
+- code: 414
+  short: Request-URI Too Long 
+  long: The requested URL's length exceeds the capacity limit for this server.
+  urlobtainer: false
+- code: 415
+  short: Unsupported Media Type 
+  long: The supplied request data is not in a format acceptable for processing by this resource.
+  urlobtainer: false
+- code: 416
+  short: Requested Range Not Satisfiable 
+  long: None of the range-specifier values in the Range request-header field overlap the current extent of the selected resource.
+  urlobtainer: false
+- code: 417
+  short: Expectation Failed 
+  long: No expectation was seen, the Expect request-header field was not presented by the client. Only the 100-continue expectation is supported.
+  urlobtainer: false
+- code: 421
+  short: Misdirected Request 
+  long:   
+- code: 422
+  short: Unprocessable Entity 
+  long: The server understands the media type of the request entity, but was unable to process the contained instructions.
+  urlobtainer: false
+- code: 423
+  short: Locked 
+  long: The requested resource is currently locked. The lock must be released or proper identification given before the method can be applied.
+  urlobtainer: false
+- code: 424
+  short: Failed Dependency 
+  long: The method could not be performed on the resource because the requested action depended on another action and that other action failed.
+  urlobtainer: false
+- code: 426
+  short: Upgrade Required 
+  long: The requested resource can only be retrieved using SSL. The server is willing to upgrade the current connection to SSL, but your client doesn't support it. Either upgrade your client, or try requesting the page using https:// 
+  urlobtainer: false
+- code: 428
+  short: Precondition Required 
+  long: The request is required to be conditional.
+  urlobtainer: false
+- code: 429
+  short: Too Many Requests 
+  long: The user has sent too many requests in a given amount of time.
+  urlobtainer: false
+- code: 431
+  short: Request Header Fields Too Large 
+  long: The server refused this request because the request header fields are too large.
+  urlobtainer: false
+- code: 451
+  short: Unavailable For Legal Reasons 
+  long: Access to <span id="location"></span> has been denied for legal reasons.
+  urlobtainer: true
+- code: 500
+  short: Internal Server Error
+  long: The server encountered an internal error or misconfiguration and was unable to complete your request. Please contact the server administrator at parth@parthkolekar.me to inform them of the time this error occurred, and the actions you performed just before this error. More information about this error may be available in the server error log.
+  urlobtainer: false
+- code: 501
+  short: Not Implemented 
+  long: Current method to <span id="location"></span> not supported.
+  urlobtainer: true
+- code: 502
+  short: Bad Gateway 
+  long: The proxy server received an invalid response from an upstream server.
+  urlobtainer: false
+- code: 503
+  short: Service Unavailable 
+  long: The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.
+  urlobtainer: false
+- code: 504
+  short: Gateway Timeout 
+  long: The gateway did not receive a timely response from the upstream server or application.
+  urlobtainer: false
+- code: 505
+  short: HTTP Version Not Supported 
+  long: The server encountered an internal error or misconfiguration and was unable to complete your request. Please contact the server administrator at parth@parthkolekar.me to inform them of the time this error occurred, and the actions you performed just before this error. More information about this error may be available in the server error log.
+  urlobtainer: false
+- code: 506
+  short: Variant Also Negotiates 
+  long:  A variant for the requested resource <span id="location"></span> is itself a negotiable resource. This indicates a configuration error.
+  urlobtainer: true
+- code: 507
+  short: Insufficient Storage 
+  long: The method could not be performed on the resource because the server is unable to store the representation needed to successfully complete the request. There is insufficient free space left in your storage allocation.
+  urlobtainer: false
+- code: 508
+  short: Loop Detected 
+  long: The server terminated an operation because it encountered an infinite loop.
+  urlobtainer: false
+- code: 510
+  short: Not Extended 
+  long: A mandatory extension policy in the request is not accepted by the server for this resource.
+  urlobtainer: false
+- code: 511
+  short: Network Authentication Required 
+  long: The client needs to authenticate to gain network access.
+  urlobtainer: false

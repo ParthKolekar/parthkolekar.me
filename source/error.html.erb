@@ -9,8 +9,8 @@ directory_index: false
   <meta name="author" content="Parth Laxmikant Kolekar" >
   <meta charset='UTF-8' />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>400 Bad Request</title>
-  <link rel="stylesheet" type="text/css" href="/css/main.css" />
+  <title><%= short %></title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
   <style type="text/css">
     @media all and (min-width: 960px) {
@@ -24,7 +24,6 @@ directory_index: false
         font-size: 30px;
       }
     }
-
     @media all and (max-width: 959px) and (min-width: 600px) {
       h1 {
         font-size: 25px;
@@ -36,7 +35,6 @@ directory_index: false
         font-size: 15px;
       }
     }
-
     @media all and (max-width: 599px) and (min-width: 320px) {
       h1 {
         font-size: 25px;
@@ -53,10 +51,10 @@ directory_index: false
 <body>
   <div id="page-wrapper" class="page-wrapper">
     <div id="content" class="page animated" style="display: flex; height: 100vh;">
-      <h2 style="flex-grow: 1; flex-shrink: 1; text-align: center; color: #fff"> 400 </h2>
+      <h2 style="flex-grow: 1; flex-shrink: 1; text-align: center; color: #fff"><%= status_code %></h2>
       <div style="flex-grow: 1; flex-shring: 1; text-align: center;">
-        <h1 style="color: #fff"> Bad Request </h1>
-        <p style="color: #666"> Your browser sent a request that this server could not understand. </p>
+        <h1 style="color: #fff"> <%= short %> </h1>
+        <p style="color: #666"> <%= long %> </p>
       </div>
       <div style="flex-grow: 3;"></div>
       <p style="flex-shrink: 1;"><a style="display:block;" class="navbar" href="/">&lt;&lt; Home?</a></p>
@@ -64,6 +62,8 @@ directory_index: false
     </div>
   </div>
 </div>
+<% if urlobtainer %>
+<script async>document.getElementById('location').innerHTML = window.location.pathname;</script>
+<% end %>
 </body>
 </html>
-
