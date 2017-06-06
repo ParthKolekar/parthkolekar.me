@@ -65,6 +65,11 @@ configure :build do
   activate :minify_javascript
 end
 
+# After doing all the things, hash them
+# Disabled. I don't need to cache bust because
+# things change so slowly
+# activate :asset_hash
+
 # Make things pretty (Must be Last Activation)
 activate :directory_indexes
 

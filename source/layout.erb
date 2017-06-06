@@ -1,0 +1,111 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+<head>
+  <meta charset="utf-8">
+  <meta itemprop="description" content="<%= current_page.data.description || strip_tags(current_page.summary) %>">
+  <meta itemprop="name" content="<%= current_page.title %>">
+  <meta name="author" content="Parth Laxmikant Kolekar" />
+  <meta name="description" content="<%= current_page.data.description || strip_tags(current_page.summary) %>">
+  <meta name="fb:admins" content="535949453">
+  <meta name="og:description" content="<%= current_page.data.description || strip_tags(current_page.summary) %>">
+  <meta name="og:locale" content="en_US">
+  <meta name="og:site_name" content="<%= current_page.title %>">
+  <meta name="og:title" content="<%= current_page.title %>">
+  <meta name="og:type" content="website">
+  <meta name="og:url" content="<%= data.site.baseurl + current_page.url %>">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="@parthkolekar">
+  <meta name="twitter:description" content="<%= current_page.data.description || strip_tags(current_page.summary) %>">
+  <meta name="twitter:site" content="@parthkolekar">
+  <meta name="twitter:title" content="<%= current_page.title %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title><%= current_page.title %> - Blog of Parth Kolekar</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+  <link rel="stylesheet" type="text/css" href="/blog/stylesheets/highlights.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+  <style type="text/css">
+  p {
+    word-wrap: break-word;
+  }
+  pre {
+    overflow: auto;
+  }
+  img {
+    /* prevents images from becoming huge and breaking my layout */
+    max-width: 100%;
+    height: auto;
+  }
+  @media only screen and (min-device-width: 480px) {
+      /* 
+      * When in landscape mode, layouts are broken. This is a hotfix to prevent
+      * elements from getting larger than a permissible length 
+      */
+      p {
+        /* prevents a large paragraph from becoming huge and breaking my layout */
+        max-width: calc(100vw - 300px);
+      }
+      pre {
+        /* prevents the code block from becoming huge and breaking my layout */
+        max-width: calc(100vw - 300px);
+      }
+    }
+  </style>
+  <script src="https://use.fontawesome.com/24ce601765.js"></script>
+</head>
+<body>
+  <div id="page-wrapper" class="page-wrapper">
+    <div id="navbars" class="animated navbars navbars-rotating">
+      <div id="home-button" data-page='home-content' class="navbar animated" onclick="window.location = '/';"> Home</div>
+      <div id="blog-button" data-page='blog-content' class="navbar animated" onclick="window.location = '/blog/';"> Blog</div>
+      <div class="rss-subscribe navbar animated" onclick="window.location = '/blog/feed.xml';"> RSS </div>
+    </div>
+    <div id="content" class="page animated">
+      <div id="main-content" class="text page animated content">
+        <div class="scroll-parent">
+          <div class="scroll-child">
+            <div class="scroll-child-child content-rotating">
+              <h1 class="color-white" style="font-size: 3em"> <%= current_page.title %> </h1>
+              <em class="color-lightgrey" style="font-size: 2em">
+<% current_page.tags.sort.each do |tag| %>
+#<a href="<%= tag_path tag %>" rel="tag"><%= tag %></a>
+<% end %>
+              </em>
+            </div>
+            <hr style="width: 80%;" class="color-neon" />
+            <div class="scroll-child-child content-rotating color-white" style="display: flex; flex-direction: row;">
+              <div style="flex-grow: 1"></div>
+              <div style="width: 90%;">
+<%= yield %>
+                <div style="height: 50px; width: 100%"></div>    
+<%= partial(:socialmedia) %>                
+                <div style="height: 50px; width: 100%"></div>    
+                <div itemprop="author" itemscope itemtype="http://schema.org/Person">
+                  <div itemprop="name" class="color-white" style="font-size: 2em;text-align: right;"> Parth Kolekar </div>
+                </div>
+              </div>
+              <div style="flex-grow: 1"></div>
+            </div>
+            
+            <hr style="width: 80%;" class="color-neon" />
+            <div class="scroll-child-child content-rotating" style="display: inline-flex; justify-content: space-between;">
+{% if page.previous.url %}
+              <a class="navbar" style="padding: 25px; border: 0;" href="{{ page.previous.url | prepend: site.baseurl }}">&laquo; Prev - {{ page.previous.title }}</a>  
+{% else %}
+              <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">&laquo; Prev </div>  
+{% endif %}
+{% if page.next.url %}
+              <a class="navbar" style="padding: 25px; border: 0;" href="{{ page.next.url | prepend: site.baseurl }}">Next &raquo; - {{ page.next.title }} </a>  
+{% else %}
+              <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">Next &raquo; </div>
+{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
