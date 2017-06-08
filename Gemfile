@@ -17,6 +17,4 @@ gem 'middleman-syntax'
 
 gem 'builder', '~> 3.0'
 gem 'nokogiri'
-gem 'oj'
 gem 'kramdown'
-gem 'therubyracer'

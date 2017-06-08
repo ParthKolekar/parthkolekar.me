@@ -1,0 +1,25 @@
+<div class="scroll-child-child">
+  <div style="display: flex; flex-direction: row;">
+<% unless (defined?(mini_header)).nil? %>
+    <p class="color-lightgrey"><%= mini_header %></p>
+<% end %>
+    <div style="flex-grow: 1">
+    </div>
+<% if is_featured(article) %>
+<%= partial :featured %>
+<% end %>
+  </div>
+  <h1 class="color-white" style="font-size: 2em"><a href="<%= article.url %>"><%= article.title %></a></h1>
+  <em class="color-lightgrey" style="font-size: 1em">
+<% article.tags.sort.each do |tag| %>
+    #<a href="<%= tag_path tag %>" rel="tag"><%= tag %></a>
+<% end %>
+  </em>
+  <div style="display: flex; flex-direction: row;">
+    <div style="flex-grow: 1"></div>
+    <div style="width: 90%;" class="color-white">
+      <%= article.summary %> ...
+    </div>
+    <div style="flex-grow: 1"></div>
+  </div>
+</div>

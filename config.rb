@@ -38,8 +38,8 @@ activate :blog do |blog|
   # blog.day_link = "{year}/{month}/{day}.html"
   # blog.default_extension = ".markdown"
 
-  blog.tag_template = "tag.html"
-  blog.calendar_template = "calendar.html"
+  blog.tag_template = "blog/tag.html"
+  blog.calendar_template = "blog/calendar.html"
 
   # Enable pagination
   blog.paginate = true
@@ -54,6 +54,20 @@ end
 
 # Methods defined in the helpers block are available in templates
 helpers do
+  def featured
+    blog.articles.select{|page| page.data.featured rescue false}
+  end
+
+  def is_featured(page)
+    !(defined?(page.data.featured)).nil?
+  end
+
+  def related(page)
+    related_pages = blog.tags.slice(*page.tags).values.first || []
+    related_pages.concat featured
+    related_pages.delete_if { |p| p == page }
+    related_pages
+  end
 end
 
 # Build-specific configuration

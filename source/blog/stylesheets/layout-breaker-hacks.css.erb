@@ -1,0 +1,25 @@
+p,h1,h2,h3,h4,h5,h6 {
+  word-wrap: break-word;
+}
+pre {
+  overflow: auto;
+}
+img {
+  /* prevents images from becoming huge and breaking my layout */
+  max-width: 100%;
+  height: auto;
+}
+@media only screen and (min-device-width: 480px) {
+  /* 
+  * When in landscape mode, layouts are broken. This is a hotfix to prevent
+  * elements from getting larger than a permissible length 
+  */
+  p,h1,h2,h3,h4,h5,h6 {
+    /* prevents a large paragraph from becoming huge and breaking my layout */
+    max-width: calc(100vw - 300px);
+  }
+  pre {
+    /* prevents the code block from becoming huge and breaking my layout */
+    max-width: calc(100vw - 300px);
+  }
+}

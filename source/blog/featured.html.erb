@@ -1,8 +1,6 @@
 ---
-pageable: true
-per_page: 10
-description: Blog of Parth Kolekar
-title: Blog of Parth Kolekar
+description: A collection of featured articles.
+title: Featured Articles
 ---
 
 <!DOCTYPE html>
@@ -31,7 +29,7 @@ title: Blog of Parth Kolekar
   <meta property="og:image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200" />
   <meta property="og:site_name" content="<%= current_page.data.title %>" />
   <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
-  <title><%= current_page.data.title %></title>
+  <title><%= current_page.data.title %> - Blog of Parth Kolekar</title>
   <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
   <link rel="stylesheet" type="text/css" href="/blog/stylesheets/highlights.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
@@ -54,37 +52,10 @@ title: Blog of Parth Kolekar
               <em class="color-lightgrey" style="font-size: 2em">
               </em>
             </div>
-<% page_articles.each_with_index do |article, i| %>
-            <hr style="width: 80%;" class="color-neon" />
+<% featured.each do |article| %>
+<hr style="width: 80%;" class="color-neon" />
 <%= partial(:articlemini, :locals => { :article => article }) %>
 <% end %>
-            <hr style="width: 80%;" class="color-neon" />
-            <div class="scroll-child-child content-rotating" style="display: flex; justify-content: space-between; flex-direction: row;">
-<% if paginate && prev_page && num_pages > 1 %>
-              <a class="navbar" rel="prev" style="padding: 25px; border: 0;" href="<%= prev_page.url %>">&laquo; Prev </a>  
-<% else %>
-              <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">&laquo; Prev </div>  
-<% end %>
-
-              <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-<% for p in 1..num_pages %>
-  <% if p == page_number %>
-                <span class="navbar current" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);"><%= p %></span>
-  <% elsif p == 1 %>
-                <a class="navbar" style="padding: 25px; border: 0;" href="/blog/"> 1 </a>  
-  <% else %>
-                <a class="navbar" style="padding: 25px; border: 0;" href="/blog/page/<%= p %>"> <%= p %> </a>  
-  <% end %>
-<% end %>
-              </div>
-
-
-<% if paginate && next_page %>
-              <a class="navbar" rel="next" style="padding: 25px; border: 0;" href="<%= next_page.url %>">Next &raquo; </a>  
-<% else %>
-              <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">Next &raquo; </div>
-<% end %>
-            </div>
           </div>
         </div>
       </div>
