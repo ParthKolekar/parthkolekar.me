@@ -12,6 +12,7 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 gem 'middleman', '~> 4.1'
 gem 'middleman-autoprefixer'
 gem 'middleman-blog'
+gem 'middleman-deploy'
 gem 'middleman-livereload'
 gem 'middleman-syntax'
 
