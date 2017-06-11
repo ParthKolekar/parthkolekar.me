@@ -1,0 +1,184 @@
+---
+title: 389-DS Setup
+date: 2016-01-03 03:19 UTC
+tags: 
+  - sysadmin
+  - setup
+  - 389-ds  
+---
+
+389-DS is a LDAP service bundled with a web API based GUI Java commandline console.
+This makes it one of the more heavier LDAP solutions, as it requires a host of various
+tools and dependencies to make it work.
+
+The tradeoff comes via an entreprise level hardened LDAP tool which is GUI managable
+and also allow for easy control for access and authorisation. 
+
+We are setting this up on a Fedora 23 Server install, and as a result, there would a
+lot of installation to be done before we get into the nitty gritty details of 
+389-ds itself.
+
+
+Installation
+------------
+
+You would need to install the 389-ds package from the fedora repositories. 
+
+    dnf install -y 389-ds
+
+And that is that.
+
+To setup your 389-console you might need to install the `xauth` package.
+
+    dnf install -y xauth
+
+If you are behind a proxy, first set the env variables for them before running yum
+
+    export {http,https,ftp,rsync,socks}_proxy='http://proxy.example.com:8080'
+    export no_proxy='comma, separated, hosts, for, which, no, proxy, need, be, applied'
+
+
+Setup
+-----
+
+Pre Setup the required 'ldapuser' or leave it to the default `nobody` user.
+
+Set the max file open limits in `/etc/security/limits.d/389-ds_file_limits.conf`
+
+     *   -   nofile  8192
+
+Also set the TCP Timeouts in `/etc/sysctl.d/389-ds_network_tweak.conf`
+
+    net.ipv4.tcp_keepalive_time = 300
+    net.core.somaxconn = 1024
+
+And now to set it up, the 389-ds comes with a handy script.
+
+    setup-ds-admin.pl
+
+Just enter your details there, and you are good to go. 
+
+
+Setting up SSL/TLS
+------------------
+
+The most interesting part of the setup, and also the most frustrating. Intersting because the method
+of generating certificates is quite different from other methods that you would have known of.
+
+Unlike in other places, simply using `easy-rsa` would not work, as you need to generate a CSR and make
+a valid certificate for yourself. 
+
+In addition, the certificate must be authorized to perform the actions. You cannot just assign any
+arbitrary certificate for this. Doing that breaks 389-ds.
+
+So, first, you need to gernerate a CSR from 389-ds console. Just log in to the console, and navigate to
+`Servername` - `Directory Server` - `Manager Certificates`.
+
+The first time you do this, you will be asked for a secure pin code. The is what 389-ds calls `pin` for the`Internal (Software)`. Enter it twice, and then click on `Request Certificate`. Enter all details including
+the certificate password.
+
+Save this CSR somewhere safe, and send it to be further signed by your CA. If you do no have a
+CA, you can create one for yourself, and get it selfsigned. Skip to section.
+
+Once your have your signed Certificate, all navigate to the same `Manage Certificates`, and go to 
+install `CA Cert`. Install your CA's public Certificate here. Then install your Server Certificate in
+same way. Be sure to put in the correct key that you put while generating the CSR.
+
+Navigate to `Directory Server`-`Encryption` and check `Enable SSL for this server`. Check `RSA` option
+and in `cipher` settings, disable weak certificates.
+
+*MAKE SURE TO SAVE THIS*
+
+Before restarting your server, create this file.
+
+    vim /etc/dirsrv/slapd-<instance>/pin.txt
+
+Enter the password for the `Internal (Software)` as follows
+
+    Internal (Software) Token:<passoword>
+
+Set permissions on this file
+    
+    chmod 400 /etc/dirsrv/slapd-<instance>/pin.txt
+
+You can now restart the server and ensure that the password is not asked.
+
+You can test this via
+
+    ldapsearch -x -b <base> -H <host> -ZZ
+
+You can replicate this for the admin-server as well. Just be sure to set the trusts in your OS
+
+Java, because Java, has it's own `keytool` for doing this.
+
+    keytool -import -v -trustcacerts -alias server-alias -file server.cer -keystore cacerts.jks -keypass <super secure password for key> -storepass <super secure password for keystore>
+
+
+Setting up TLS/SSL via Command Line
+-----------------------------------
+
+If you already have your own wildcard certificate, to import it, you can use the following
+to import them directly into 389-ds
+
+Export the cert and key into a pkcs12 format.
+
+    openssl pkcs12 -export -inkey iiit.ac.in.key -in iiit.ac.in.crt -out /tmp/crt.pk12 -nodes -name 'Server-Cert'
+
+Import this pkcs12 certificate into 389-ds
+
+    pk12util -i /tmp/crt.pk12 -d /etc/dirsrv/slapd-<instance>/
+
+Import your root CA certificate
+    
+    certutil -d /etc/dirsrv/slapd-<instance>/ -A -n "My Local CA" -t CT,, -a -i /path/to/root/certificate.pem
+
+Enable the options from the `389-console`
+
+
+Self-Signed CA
+--------------
+
+If you do not want to have a proper authenticated CA, and are happy with a self-signed CA certificate,
+you will have to do the follows.
+
+The dir for that is `/etc/pki/CA` so without further ado, let us get right to it.
+
+    cd /etc/pki/CA
+    touch index.txt
+    echo '01' > serial
+    echo '01' > crlnumber
+
+This sets up the environment for generating a CA certificate. Now we generate a CA for generating
+our Server Certificate
+
+    openssl req -new -x509 -extensions v3_ca -keyout /etc/pki/CA/private/ca-cert.key -out /etc/pki/CA/certs/ca-cert.crt -days 3650
+
+Note that we are creating a valid time for 10 years. Also not the key and cert dirs.
+Enter your proper details here and proceed. 
+
+    chmod 400 /etc/pki/CA/private/ca-cert.key
+
+Now we need to disable the verification of certificate matching in openssl. Because the names might 
+conflict. 
+
+    vim /etc/pki/tls/openssl.cnf
+
+And change the lines 85-88 to as follows
+
+    85 countryName              = optional
+    86 stateOrProvinceName      = optional
+    87 organizationName         = optional
+    88 organizationalUnitName   = optional
+
+To sign the CSR, you need to run the command given below. Change the paths if you have changed it.
+
+    openssl ca -in <request>.csr -out /etc/pki/CA/newcerts/<request>.crt  -keyfile /etc/pki/CA/private/ca-cert.key -cert /etc/pki/CA/certs/ca-cert.crt 
+
+This should spit out your certificate into the request.crt.
+
+
+Adding a Custom Schema
+----------------------
+
+Drop in your custom schemas on `/etc/dirsrv/slapd-<instance>/schema`.
+Restart the server.

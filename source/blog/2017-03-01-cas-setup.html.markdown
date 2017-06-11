@@ -1,0 +1,445 @@
+---
+title: CAS Setup
+date: 2017-03-01 05:07 UTC
+tags:
+  - sysadmin
+  - setup
+  - CAS
+  - tomcat8 
+---
+
+CAS is a java program used to provide a unified login to people. It supports a
+bunch of things, the most important among it being the ability to support the
+usage of LDAP. 
+
+In this setup, I deploy it to the tomcat-jsvc on default versions. 
+
+I also use the CAS overlay at [ParthKolekar/CAS-Overlay](https://github.com/ParthKolekar/cas-overlay-template-ldap-lppe).
+
+
+Installation
+------------
+
+In this setup I use the tomcat-jsvc to bind natively to port 80 and port 443. 
+So it would be useless to keep apache on it. 
+
+	yum erase httpd
+
+Now we install all the packages that we are going to need.
+
+	yum install -y tomcat apr apr-devel tomcat-native tomcat-jsvc
+
+
+We install CAS by using the maven which is provided with the repo itself
+
+	./mvnw clean package
+	cp target/cas.war /var/lib/tomcat/webapps/
+
+Create a `ROOT` webapp to handle redirections.
+
+var/lib/tomcat/webapps/ROOT/index.jsp
+
+	<%@ page language="java" session="false" %>
+	<% response.sendRedirect("https://login.iiit.ac.in/cas"); %>
+
+
+Enable services and start them
+
+	systemctl enable tomcat-jsvc
+	systemctl start tomcat-jsvc
+
+
+Setup - CAS
+-----------
+
+CAS in the repo is meant to load the configuration from `/etc/cas`. Each entry 
+is documented, but just in case, I am attaching to entries here. 
+
+/etc/cas/cas.properties
+
+~~~properties
+server.name=https://login.iiit.ac.in
+server.prefix=${server.name}/cas
+
+# security configuration based on IP address to access the /status and /statistics pages
+cas.securityContext.adminpages.ip=127\.0\.0\.1
+
+# Unique CAS node name
+# host.name is used to generate unique Service Ticket IDs and SAMLArtifacts.  This is usually set to the specific
+# hostname of the machine running the CAS node, but it could be any label so long as it is unique in the cluster.
+host.name=login.iiit.ac.in
+
+##
+# CAS Logout Behavior
+# WEB-INF/cas-servlet.xml
+#
+# Specify whether CAS should redirect to the specified service parameter on /logout requests
+cas.logout.followServiceRedirects=true
+
+##
+# Response Headers
+#
+httpresponse.header.cache=true
+httpresponse.header.hsts=true
+httpresponse.header.xframe=true
+httpresponse.header.xcontent=true
+httpresponse.header.xss=true
+
+##
+# Password Policy
+#
+# Warn all users of expiration date regardless of warningDays value.
+password.policy.warnAll=true
+
+# Threshold number of days to begin displaying password expiration warnings.
+password.policy.warningDays=30
+
+# URL to which the user will be redirected to change the password.
+password.policy.url=https://passwordreset.iiit.ac.in/
+
+# password.policy.warn.attribute.name=pwdUpdateTime
+# password.policy.warn.attribute.value=pwdUpdateTime
+# password.policy.warn.display.matched=true
+
+ldap.url=ldap://ldap.iiit.ac.in:389
+
+# Start TLS for SSL connections
+ldap.useStartTLS=true
+
+# Directory root DN
+ldap.rootDn=dc=iiit,dc=ac,dc=in
+
+# Base DN of users to be authenticated
+ldap.baseDn=ou=users,dc=iiit,dc=ac,dc=in
+
+# LDAP connection timeout in milliseconds
+ldap.connectTimeout=3000
+
+# Manager credential DN
+ldap.managerDn=cn=admin
+
+# Manager credential password
+ldap.managerPassword=nopenopenope
+
+#========================================
+# LDAP connection pool configuration
+#========================================
+ldap.pool.minSize=1
+ldap.pool.maxSize=10
+ldap.pool.validateOnCheckout=false
+ldap.pool.validatePeriodically=true
+
+# Amount of time in milliseconds to block on pool exhausted condition
+# before giving up.
+ldap.pool.blockWaitTime=3000
+
+# Frequency of connection validation in seconds
+# Only applies if validatePeriodically=true
+ldap.pool.validatePeriod=300
+
+# Attempt to prune connections every N seconds
+ldap.pool.prunePeriod=300
+
+# Maximum amount of time an idle connection is allowed to be in
+# pool before it is liable to be removed/destroyed
+ldap.pool.idleTime=600
+
+#========================================
+# Authentication
+#========================================
+ldap.authn.searchFilter=mail={user}
+
+# Ldap domain used to resolve dn
+ldap.domain=iiit.ac.in
+
+# Should LDAP Password Policy be enabled?
+ldap.usePpolicy=true
+
+# Allow multiple DNs during authentication?
+ldap.allowMultipleDns=true
+~~~
+
+/etc/cas/log4j2.xml
+
+~~~xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Specify the refresh internal in seconds. -->
+<Configuration monitorInterval="60">
+  <Appenders>
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d %p [%c] - &lt;%m&gt;%n"/>
+    </Console>
+    <RollingFile name="file" fileName="/var/log/tomcat/cas.log" append="true"
+           filePattern="cas-%d{yyyy-MM-dd-HH}-%i.log">
+      <PatternLayout pattern="%d %p [%c] - %m%n"/>
+      <Policies>
+        <OnStartupTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </RollingFile>
+    <RollingFile name="auditlogfile" fileName="/var/log/tomcat/cas_audit.log" append="true"
+           filePattern="cas_audit-%d{yyyy-MM-dd-HH}-%i.log">
+      <PatternLayout pattern="%d %p [%c] - %m%n"/>
+      <Policies>
+        <OnStartupTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </RollingFile>
+    <RollingFile name="perfFileAppender" fileName="/var/log/tomcat/perfStats.log" append="true"
+           filePattern="perfStats-%d{yyyy-MM-dd-HH}-%i.log">
+      <PatternLayout pattern="%m%n"/>
+      <Policies>
+        <OnStartupTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <AsyncLogger  name="org.jasig" level="info" additivity="false" includeLocation="true">
+      <AppenderRef ref="console"/>
+      <AppenderRef ref="file"/>
+    </AsyncLogger>
+    <AsyncLogger  name="org.springframework" level="warn" />
+    <AsyncLogger name="org.springframework.webflow" level="warn" />
+    <AsyncLogger name="org.springframework.web" level="warn" />
+    <Logger name="org.pac4j" level="warn" />
+    <AsyncLogger name="perfStatsLogger" level="info" additivity="false" includeLocation="true">
+      <AppenderRef ref="perfFileAppender"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.jasig.cas.web.flow" level="info" additivity="true" includeLocation="true">
+      <AppenderRef ref="file"/>
+    </AsyncLogger>
+    <AsyncLogger name="org.jasig.inspektr.audit.support" level="info" includeLocation="true">
+      <AppenderRef ref="auditlogfile"/>
+      <AppenderRef ref="file"/>
+    </AsyncLogger>
+    <AsyncRoot level="error">
+      <AppenderRef ref="console"/>
+    </AsyncRoot>
+  </Loggers>
+</Configuration>
+~~~
+
+/etc/cas/services/HTTPorHTTPS-100.json
+
+~~~json
+{
+	"@class" : "org.jasig.cas.services.RegexRegisteredService",
+	"serviceId" : "^(http|https)://.*",
+	"name" : "HTTP or HTTPS",
+	"id" : 100,
+	"description" : "This service definition authorized all application urls that support HTTPS and HTTP protocols.",
+	"evaluationOrder" : 3,
+	"attributeReleasePolicy" : {
+		"@class" : "org.jasig.cas.services.ReturnAllAttributeReleasePolicy"
+	}
+}
+~~~
+
+The service is what allows https and http websites to use CAS as a login server. We might need to set a stricter regex rule on this.
+
+
+Setup - Tomcat
+--------------
+
+We are using the Apache Portable Runtime which means that the http part of
+the server is rendered by the same thing that powers httpd, so configuration
+is also similar to httpd. You set the config and drop certs in place. No more
+java keytool or other crap.
+
+/etc/tomcat/server.xml
+
+~~~xml
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+	  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- Note:  A "Server" is not itself a "Container", so you may not
+	 define subcomponents such as "Valves" at this level.
+	 Documentation at /docs/config/server.html
+ -->
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <!-- Security listener. Documentation at /docs/config/listeners.html
+  <Listener className="org.apache.catalina.security.SecurityListener" />
+  -->
+  <!--APR library loader. Documentation at /docs/apr.html -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <!-- Prevent memory leaks due to use of particular java/javax APIs-->
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+  <!-- Global JNDI resources
+     Documentation at /docs/jndi-resources-howto.html
+  -->
+  <GlobalNamingResources>
+  <!-- Editable user database that can also be used by
+     UserDatabaseRealm to authenticate users
+  -->
+  <Resource name="UserDatabase" auth="Container"
+        type="org.apache.catalina.UserDatabase"
+        description="User database that can be updated and saved"
+        factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+        pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <!-- A "Service" is a collection of one or more "Connectors" that share
+     a single "Container" Note:  A "Service" is not itself a "Container",
+     so you may not define subcomponents such as "Valves" at this level.
+     Documentation at /docs/config/service.html
+   -->
+  <Service name="Catalina">
+
+  <!--The connectors can use a shared executor, you can define one or more named thread pools-->
+  <!--
+  <Executor name="tomcatThreadPool" namePrefix="catalina-exec-"
+    maxThreads="150" minSpareThreads="4"/>
+  -->
+
+
+  <!-- A "Connector" represents an endpoint by which requests are received
+     and responses are returned. Documentation at :
+     Java HTTP Connector: /docs/config/http.html (blocking & non-blocking)
+     Java AJP  Connector: /docs/config/ajp.html
+     APR (HTTP/AJP) Connector: /docs/apr.html
+     Define a non-SSL HTTP/1.1 Connector on port 8080
+  -->
+  
+  <Connector port="80" protocol="HTTP/1.1"
+         connectionTimeout="20000"
+         redirectPort="443" />
+  
+  <!-- A "Connector" using the shared thread pool-->
+  <!--
+  <Connector executor="tomcatThreadPool"
+         port="8080" protocol="HTTP/1.1"
+         connectionTimeout="20000"
+         redirectPort="8443" />
+  -->
+  <!-- Define a SSL HTTP/1.1 Connector on port 8443
+     This connector uses the BIO implementation that requires the JSSE
+     style configuration. When using the APR/native implementation, the
+     OpenSSL style configuration is required as described in the APR/native
+     documentation -->
+  
+  <Connector port="443" protocol="org.apache.coyote.http11.Http11AprProtocol"
+         maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
+         SSLCertificateFile="/etc/pki/tls/certs/iiit.ac.in.crt"
+         SSLCertificateKeyFile="/etc/pki/tls/private/iiit.ac.in.key"
+         SSLCertificateChainFile="/etc/pki/tls/certs/iiit.ac.in_intermediate_root.crt"
+         SSLVerifyClient="none" SSLProtocol="TLSv1+TLSv1.1+TLSv1.2"/>
+  
+  <!-- Define an AJP 1.3 Connector on port 8009 -->
+  <!--
+  <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+  -->
+
+
+  <!-- An Engine represents the entry point (within Catalina) that processes
+     every request.  The Engine implementation for Tomcat stand alone
+     analyzes the HTTP headers included with the request, and passes them
+     on to the appropriate Host (virtual host).
+     Documentation at /docs/config/engine.html -->
+
+  <!-- You should set jvmRoute to support load-balancing via AJP ie :
+  <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
+  -->
+  <Engine name="Catalina" defaultHost="login.iiit.ac.in">
+
+    <!--For clustering, please take a look at documentation at:
+      /docs/cluster-howto.html  (simple how to)
+      /docs/config/cluster.html (reference documentation) -->
+    <!--
+    <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"/>
+    -->
+
+    <!-- Use the LockOutRealm to prevent attempts to guess user passwords
+       via a brute-force attack -->
+    <Realm className="org.apache.catalina.realm.LockOutRealm">
+    <!-- This Realm uses the UserDatabase configured in the global JNDI
+       resources under the key "UserDatabase".  Any edits
+       that are performed against this UserDatabase are immediately
+       available for use by the Realm.  -->
+    <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+         resourceName="UserDatabase"/>
+    </Realm>
+
+    <Valve className="org.apache.catalina.valves.RemoteIpValve" />
+
+    <Host name="login.iiit.ac.in"  appBase="webapps"
+      unpackWARs="true" autoDeploy="true">
+
+    <!-- SingleSignOn valve, share authentication between web applications
+       Documentation at: /docs/config/valve.html -->
+    <!--
+    <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
+    -->
+
+    <!-- Access log processes all example.
+       Documentation at: /docs/config/valve.html
+       Note: The pattern used is equivalent to using pattern="common" -->
+    <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+         prefix="login.iiit.ac.in_access_log." suffix=".txt"
+         pattern="%{org.apache.catalina.AccessLog.RemoteAddr}r %l %u %t &quot;%r&quot; %s %b &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot;" />
+
+    </Host>
+  </Engine>
+  </Service>
+</Server>
+~~~
+
+/etc/tomcat/tomcat.conf
+
+~~~conf
+...
+...
+# Use JAVA_OPTS to set java.library.path for libtcnative.so
+#JAVA_OPTS="-Djava.library.path=/usr/lib"
+JAVA_OPTS="-Dlog4j.configurationFile=/etc/cas/log4j2.xml"
+...
+...
+~~~
+
+
+/etc/tomcat/web.xml
+
+~~~xml
+<?xml version="1.0" encoding="ISO-8859-1"?>
+  ...
+  ...
+  ...
+
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Protected Context</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+
+</web-app>
+~~~

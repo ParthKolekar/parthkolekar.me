@@ -1,0 +1,175 @@
+---
+title: NS Setup
+date: 2015-10-09 19:38 UTC
+tags: 
+  - sysadmin
+  - setup
+  - bind9
+---
+
+The NS server of choice is the bind9 server (named) which would be configured
+for providing a DNS server service for a local subnet 192.168.1.0/24.
+
+Each server needs to be set to the IP for this DNS server in its `/etc/resolv.conf`
+
+
+Installation
+------------
+
+We install bind9 from the package managers.
+
+For CentOS 7 - minimal, the commands to install are.
+
+    yum install -y epel-release
+    yum install -y bind bind-utils
+
+If you are behind a proxy, first set teh env variable before running yum
+
+    export {http,https,ftp,rsync,socks}_proxy='http://proxy.example.com:8080'
+    export no_proxy='comma, separated, hosts, for, which, no, proxy, need, be, applied'
+
+
+Configuration
+-------------
+
+All configuration is done via editing the named.conf. The location of this file
+varies depending upon your OS.
+
+In CentOS - 7 it is located in the /etc/named.conf
+
+We create a demo new domain here, and enable recursion to some other primary
+nameserver. We also create a trusted ACL to manage access.
+
+After editing named.conf looks something like this
+
+    acl "trusted" { // Create a Trusted ACL for trusted networks.
+        192.168.1.0/24;
+        10.8.0.0/16;
+    };
+
+    options {
+        listen-on port 53 { // Listen for connections from all IP.
+            127.0.0.1;
+            any;
+        };
+        listen-on-v6 port 53 { // Listen for IPv6 from localhost.
+            ::1;
+        };
+        directory "/var/named"; // Place where zonefiles are
+        dump-file "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+
+        allow-query { // Allow only localhost and trusted to query the nameserver
+                      // It shows REFUSED for all others.
+            localhost;
+            trusted;
+        };
+        allow-recursion { // Allow only localhost and trusted to use recursion
+            localhost;
+            trusted;
+        };
+        allow-transfer { // Do not allow zone transfer.
+            none;
+        };
+        forwarders { // Forward requests to thsese if non authoratative.
+            10.4.3.222;
+            10.4.20.204;
+        };
+        recursion yes; // Allow recustion
+
+        dnssec-enable no; 
+        dnssec-validation no;
+        dnssec-lookaside auto;
+    
+        /* Path to ISC DLV key */
+        bindkeys-file "/etc/named.iscdlv.key";
+    
+        managed-keys-directory "/var/named/dynamic";
+    };
+    
+    logging {
+        channel default_debug {
+            file "data/named.run";
+            severity dynamic;
+        };
+    };
+    
+    zone "." IN { // Show hint to '.' servers for '.'
+        type hint;
+        file "named.ca";
+    };
+    
+    zone "nonexistant." IN { // Authoratative for "nonexistant"
+        type master;
+        file "nonexistant.forward";
+    };
+    
+    zone "1.168.192.in-addr.arpa." IN { // Authoratative for rDNS as well
+        type master;
+        file "1.168.192.in-addr.arpa.forward";
+    };
+    
+    include "/etc/named.rfc1912.zones";
+    include "/etc/named.root.key";
+    
+
+Zone Files
+----------
+
+The bind9 looks at the dir 'directory' in the config and looks there for the zone
+files. 
+
+The zonefile is simple to make, with a SOA record, on which other records are 
+added. 
+
+
+For example, here is the nonexistant.forward
+
+    $TTL 3600
+    @ SOA ns.nonexistant. nonexistant.nonexistant. (8 15m 5m 30d 1h)
+        NS ns.nonexistant.
+        A 192.168.1.6
+
+    login   IN  A   192.168.1.7
+    ns  IN  A   192.168.1.6
+    ldap    IN  A   192.168.1.5
+    vpn IN  A   192.168.1.4
+    base    IN  A   192.168.1.1
+
+And for the reverse lookup, the 1.168.192.in-addr.arpa.forward
+
+
+    $TTL 3600
+    @ SOA ns.nonexistant. nonexistant.nonexistant. (10 15m 5m 30d 1h)
+        NS ns.nonexistant.
+
+    7   PTR login.nonexistant.
+    6   PTR ns.nonexistant.
+    5   PTR ldap.nonexistant.
+    4   PTR     vpn.nonxistant.
+    1   PTR base.nonxistant.
+
+Be sure to increment the serial numbers when making a change to the zone files.
+
+
+Starting service
+----------------
+
+Start the service by using the 
+
+    service named start
+
+On using 
+
+    service named status
+
+the logs are printed in the /var/log/messages.
+
+
+Restricting IPv6 for IPv4 only Network
+--------------------------------------
+
+For setting the bind9 server to serve ipv4 only addreses, you need to enable the following options in the `/etc/named.conf`
+
+    filter-aaaa-on-v4 yes;

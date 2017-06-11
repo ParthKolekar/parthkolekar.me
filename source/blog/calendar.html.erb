@@ -47,11 +47,7 @@ title: Blog of Parth Kolekar
 </head>
 <body>
   <div id="page-wrapper" class="page-wrapper">
-    <div id="navbars" class="animated navbars navbars-rotating">
-      <div id="home-button" data-page='home-content' class="navbar animated" onclick="window.location = '/';"> Home</div>
-      <div id="blog-button" data-page='blog-content' class="navbar animated" onclick="window.location = '/blog/';"> Blog</div>
-      <div class="rss-subscribe navbar animated" onclick="window.location = '/blog/feed.xml';"> RSS </div>
-    </div>
+<%= partial(:navbars) %>
     <div id="content" class="page animated">
       <div id="main-content" class="text page animated content">
         <div class="scroll-parent" id="container">
@@ -65,33 +61,12 @@ title: Blog of Parth Kolekar
             <hr style="width: 80%;" class="color-neon" />
 <%= partial(:articlemini, :locals => { :article => article }) %>
 <% end %>
-            <hr style="width: 80%;" class="color-neon" />
-            <div class="scroll-child-child content-rotating" style="display: flex; justify-content: space-between; flex-direction: row;">
-<% if paginate && prev_page && num_pages > 1 %>
-              <a class="navbar" rel="prev" style="padding: 25px; border: 0;" href="<%= prev_page.url %>">&laquo; Prev </a>  
-<% else %>
-              <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">&laquo; Prev </div>  
-<% end %>
-
-              <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-<% for p in 1..num_pages %>
-  <% if p == page_number %>
-                <span class="navbar current" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);"><%= p %></span>
-  <% elsif p == 1 %>
-                <a class="navbar" style="padding: 25px; border: 0;" href="/blog/"> 1 </a>  
-  <% else %>
-                <a class="navbar" style="padding: 25px; border: 0;" href="/blog/page/<%= p %>"> <%= p %> </a>  
-  <% end %>
-<% end %>
-              </div>
-
-
-<% if paginate && next_page %>
-              <a class="navbar" rel="next" style="padding: 25px; border: 0;" href="<%= next_page.url %>">Next &raquo; </a>  
-<% else %>
-              <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">Next &raquo; </div>
-<% end %>
-            </div>
+<%= partial(:pagination, :locals => { 
+  :paginate => paginate, 
+  :prev_page => prev_page, 
+  :num_pages => num_pages,
+  :next_page => next_page
+}) %>
           </div>
         </div>
       </div>

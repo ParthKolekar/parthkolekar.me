@@ -1,0 +1,53 @@
+---
+title: Macbeth
+date: 2017-04-18 13:04 UTC
+tags:
+  - ctf
+  - stegno
+---
+
+Find the flag.
+
+- Flag Format /flag:[a-zA-Z]+/
+- Category : stegno
+
+Provided [Macbeth.docx](2017-04-18-macbeth/Macbeth.docx){:target="_blank"}
+
+Hint : Not all characters are created equal.
+
+Solution
+========
+
+Opening the file we can quickly tell that the entire file has been written in two fonts. We unzip the docx file, and grep the part we are interested in.
+
+    $ unzip Macbeth.docx
+
+    $ grep "Bitstream Vera Sans Mono\"/></w:rPr><w:t>\(.\)<" document.xml -o
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>F<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>l<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>a<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>g<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>:<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>F<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>u<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>c<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>k<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>e<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>d<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>U<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>p<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>F<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>o<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>r<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>e<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>n<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>s<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>i<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>c<
+    Bitstream Vera Sans Mono"/></w:rPr><w:t>s<
+
+That gives us our flag.
+
+Flag
+====
+FuckedUpForensics

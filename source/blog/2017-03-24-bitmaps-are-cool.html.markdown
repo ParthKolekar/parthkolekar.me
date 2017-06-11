@@ -1,0 +1,67 @@
+---
+title: Bitmaps are cool
+date: 2017-03-24 20:03 UTC
+tags: 
+  - ctf 
+  - stegno
+---
+
+Here is a tiny file that you might find fun to do while cramming other forms of knowledge in your head. :D
+
+All the best for your exams. 
+
+- Flag Format: /flag{.+}/
+
+- Category: #stegno
+
+Provided [text.bmp](2017-03-24-bitmaps-are-cool/text.bmp)
+
+
+Solution
+========
+
+This is a simple question meant to be a refresher while the examinations are going on. 
+
+![text.bmp](2017-03-24-bitmaps-are-cool/text.bmp)
+
+This does not show anything other than the fact that most of the file is empty. Which actually makes the job easier. On opening the file in binary mode, we confirm this.
+
+    00000000: 424d 6675 0000 0000 0000 3600 0000 2800  BMfu......6...(.
+    00000010: 0000 6400 0000 6400 0000 0100 1800 0000  ..d...d.........
+    00000020: 0000 3075 0000 c30e 0000 c30e 0000 0000  ..0u............
+    00000030: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000040: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000b40: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000b50: 0000 0000 0000 0000 7d50 3a00 0000 0000  ........}P:.....
+    00000b60: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000b70: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000b80: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000b90: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000ba0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    ...
+    00000e70: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    ...
+    000074b0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    000074c0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    000074d0: 616c 6600 0000 0000 0000 0000 0000 0000  alf.............
+    000074e0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    000074f0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    ...
+
+However we also see some text scattered in the middle. Which seems interesting. 
+
+We try to read the data in the files.
+
+    $ cat text.bmp
+    BMfu6(dd0u}P:smroFynaMnIsemoCongetS{galf
+
+That seems interesting enough. It simply the reversed string of our flag.                            
+
+    }P:smroFynaMnIsemoCongetS{galf
+
+
+Flag
+----
+
+flag{StegnoComesInManyForms:P}
+

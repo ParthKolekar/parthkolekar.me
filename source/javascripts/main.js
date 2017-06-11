@@ -30,6 +30,10 @@ var main = (function() {
         if (!activePage) {
             activePage = content[0];
         }
+        for (var i = content.length - 1; i >= 0; i--) {
+            content[i].classList.remove('shown');
+            content[i].classList.add('hidden');
+        }
         activePage.classList.remove('hidden');
         activePage.classList.add('shown');
         addEventListener('popstate', function() {

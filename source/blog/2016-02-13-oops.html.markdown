@@ -1,0 +1,38 @@
+---
+title: oops
+date: 2016-02-13 10:13 UTC
+tags: 
+  - ctf 
+  - web
+---
+
+The question text has the following html syntax.
+
+~~~html
+<!--script src="https://felicity.iiit.ac.in/contest/breakin/static/jquery.min.js"></script-->
+~~~
+
+## Write-up
+
+by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+
+The content of the attached [jquery.min.js](2016-02-13-oops/jquery.min.js) has a line attached to it in the bottom. 
+This line does 
+
+~~~js    
+var content=ajax.fetchPage("http://example.com").toDOM();content.querySelector("h1").parentNode.childNodes[3].innerHTML.split(" ").slice(26).join(" ");
+~~~
+
+This is a straight forward question to open http://example.com nad the do split, slice and join operations on it's text. 
+
+The related line on http://example.com was 
+
+    This domain is established to be used for illustrative 
+    examples in documents. You may use this domain in examples
+    without prior coordination or asking for permission.
+
+On applying the split, slice, and join we end up with 
+
+    asking for permission.
+
+Which is the flag.

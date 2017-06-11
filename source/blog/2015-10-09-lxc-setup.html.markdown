@@ -1,0 +1,255 @@
+---
+title: LXC Setup (OLD)
+date: 2015-10-09 19:38 UTC
+tags: 
+  - sysadmin
+  - setup 
+---
+
+LXC is a Free OS-level virtualization environment for running multiple isolated
+Linux systems on a single host. The machine on which lxc is being used will be 
+called a 'base' machine and the virtual environments created on this would be 
+called 'container'. LXC uses kernel CGROUPS to provide resourse management for 
+the containers. Inside each container, each 'init' environment is created as a 
+sub process of `lxc-start` whilst it itself thinks that it is a pid 1 process.
+
+LXC supports a variety of underlying base OS. The best support for LXC is given
+by the cannonical ubuntu, but you can freely use any other base OS.
+
+In our case, we are using CentOS 7 - minimal as host.
+
+
+Installation
+------------
+
+LXC installation is simple. Just download it from your package manager of choice.
+
+For CentOS 7, we use yum. 
+
+The LXC is a part of the EPEL, so you first need to get that.
+
+    yum install -y epel-release
+    yum install -y lxc lxc-templates lxc-doc
+
+lxc-doc adds helpful doc pages, it is optional
+
+If you are behind a proxy, first set the env variables for them before running yum
+
+    export {http,https,ftp,rsync,socks}_proxy='http://proxy.example.com:8080'
+    export no_proxy='comma, separated, hosts, for, which, no, proxy, need, be, applied'
+
+lxc uses wget to download its files. So be sure to install it too.
+
+    yum install wget
+
+Creating a new container
+------------------------
+
+Creating a new container is simple. You just use lxc-create
+
+    lxc-create -n <name> -t <template>
+
+the -t option is used for specifing a template to download from. The various other
+templates you can use are  (at time of writing)
+
+    alpine        archlinux     centos        debian        fedora        openmandriva  oracle        sshd          ubuntu-cloud  
+    altlinux      busybox       cirros        download      gentoo        opensuse      plamo         ubuntu 
+
+The template download is a special template as it pulls a host of templates and configures
+them.
+
+The templates which are downloaded are placed in the cache and not re-downloaded
+until they expire. The cache location in our build is 
+
+    /var/cache/lxc/
+
+You also might encounter keyserver errors in lxc-create. Request an access from your network
+adminstrator to allow the usage of the keyserver ports. (Alternatively you can refresh keys by 
+downloading manually, but it is not recommended). 
+
+    yum update -y
+
+also is known to solve a lot of key fetching issues.
+
+The <name> is any name which you might like to give a container. 
+
+You can start the container by 
+
+    lxc-start -n <name> -d 
+
+the -d starts the process as a daemon. Or else the init process of the container gets attached to your 
+current shell. (Not interesting :( !!) 
+
+You can also attach your shell to one of the tty(s) the container. You do this by using
+
+    lxc-attach -n <name>
+
+Note that the current env variables are passed on the child as well. --keep-env and --nokeep-env options
+can be used for this.
+
+Configuring - General
+---------------------
+
+In general, you can configure your lxc container by editing the /var/lib/lxc/<name>/config file.
+If you have created the container somewhere else, you can look up the config file in that directory.
+
+The configuration is done in the form of key, value pairs.
+
+Configuring - Networking
+------------------------
+
+lxc automatically sets up a bridge network over your internet to provide a uniform bridge on
+which all your containers can connect to the network. If by chance you are on a minimal install of
+your base machine OS, there might not be the required scripts installed which creates the bridge.
+
+In that case you can edit your network configuration and create a bridge for yourself as your network needs
+it.
+
+For our case, we setup a bridge having a static IP of 192.168.1.0/24 and MASQUERADE this IP to outside 
+world, with a default gateway of 192.168.1.1 (base machine).
+
+The changes needed to be done were. 
+
+Create a new file /etc/sysconfig/network-scripts/ifcfg-br0 having the following content.
+
+    DEVICE=br0
+    TYPE=Bridge
+    BOOTPROTO=none
+    ONBOOT=yes
+    DELAY=0
+    IPADDR=192.168.1.1
+    PREFIX=24
+    
+The name br0 is used because the default lxc-config has the name br0 given to the interface. You might as 
+well give the name virbr0 or anything else too. Just make sure to be consistent with the lxc config file.
+
+When a lxc container is started it automatically creates another interface for itself and attaches it as a
+bridge as a child to this interface. 
+
+Make sure that the config in your case is matching.
+
+    lxc.network.link = br0
+
+In our case, we also want static private IP's to be given to each container. This is done via adding to
+config
+
+    lxc.network.ipv4.gateway = 192.168.1.1
+    lxc.network.ipv4 = 192.168.1.5/24
+
+Be sure that these lines are also set.
+
+    lxc.network.type = veth
+    lxc.network.flags = up
+
+In addition to all this, you need to also set iptables to forward packets to and fro from
+containers and base machine. For this, it is prefered to use a script along with a backup
+so that you do not kill your network at the wrong time.
+
+The script used in our case 
+
+~~~ shell
+### Clean Existing
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -t raw -F
+iptables -t raw -X
+iptables -t security -F
+iptables -t security -X
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+iptables -N TCP
+iptables -N SYN_CHECK
+iptables -N fw-interfaces
+iptables -N fw-open
+
+### Filter INPUT
+iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
+iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Accept all local
+iptables -A INPUT -i lo -j ACCEPT
+
+# Jump to TCP, drop the rest
+iptables -A INPUT -p tcp --syn -m conntrack --ctstate NEW -j TCP
+iptables -A INPUT -p tcp -j REJECT --reject-with tcp-rst
+
+# Drop all UDP
+iptables -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable
+
+# accept icmp from following. Reject otherwise
+iptables -A INPUT -p icmp -s 10.0.0.0/8 -j ACCEPT
+iptables -A INPUT -p icmp -s 192.168.1.0/24 -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+iptables -A INPUT -j REJECT --reject-with icmp-proto-unreachable
+
+# For Host Machine TCP
+iptables -A TCP -p tcp --dport 22 -s 10.0.0.0/8 -j ACCEPT
+iptables -A TCP -p tcp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+
+### Forward rules
+# Forward connecntions which are established jump to fw-interfaces, fw-open, accept icmp, or reject
+iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -j fw-interfaces
+iptables -A FORWARD -j fw-open
+iptables -A FORWARD -j REJECT --reject-with icmp-port-unreachable
+
+# allow forwarding for outside
+iptables -A fw-interfaces -d 10.0.0.0/8 -j ACCEPT
+iptables -A fw-interfaces -d 192.168.1.0/24 -j ACCEPT
+iptables -A fw-interfaces -d 172.16.0.0/12 -j ACCEPT
+
+#forward for self too
+iptables -A fw-interfaces -i br0 -d 192.168.1.0/24 -j ACCEPT
+iptables -A fw-interfaces -o enp2s0 -s 192.168.1.0/24 -j ACCEPT
+
+# MASQUERADE for internal nodes
+iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o enp2s0 -j MASQUERADE
+
+# accept the following (after route)
+iptables -A fw-open -d 192.168.1.4 -p tcp --dport 1194 -j ACCEPT
+iptables -A fw-open -d 192.168.1.7 -p tcp --dport 8080 -j ACCEPT
+
+### PREROUTE the following
+# route the following to
+iptables -t nat -A PREROUTING -i enp2s0 -p tcp --dport 1194 -j DNAT --to 192.168.1.4:1194
+iptables -t nat -A PREROUTING -i enp2s0 -p tcp --dport 8080 -j DNAT --to 192.168.1.7:8080
+
+echo "Applied"
+sleep 500
+iptables-restore < /etc/sysconfig/iptables
+~~~
+
+Do note that the PREROUTING forwards some content to 192.168.1.4 and 192.168.1.7 on their respective ports
+You need to nat it PREROUTING and then accept it in FORWARD as well, hence the fw-open rules.
+
+This script would clean out all iptables and set these rules inplace. And go to sleep for 500s.
+If this script is not cancelled within this time it restores the default iptables back.
+
+That is added as a failsafe to prevent accidental network loss.
+
+Run this script once on boot to forward packets.
+
+Do also note that since our bridge is statically allocated 192.168.1.0/24, do not run dhclient on nodes.
+That would simply not work. 
+
+Configuring - Init
+------------------
+
+Once your are in to container, do set the /etc/resolv.conf as lxc simply does not do that
+(documented bug). LXC containers are tiny, and headless, but share Memory including SWAP 
+(unless you set it not to) and CPU (limits can be set in config). The default filesystem
+type which lxc creates is a simple chroot jail. You can literally cd into the container
+and edit files. But please do not do that. LXC-attach.
+
+Also, your lxc-attach will mangle your $PATH, so set it properly in your container configuration.
+
+SELinux
+-------
+
+SELinux cannot ba enabled in the container, as the containers share the host kernel. The 
+SELinux should be set to DISABLED.
