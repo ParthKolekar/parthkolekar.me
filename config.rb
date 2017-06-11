@@ -55,7 +55,7 @@ end
 # Methods defined in the helpers block are available in templates
 helpers do
   def featured
-    blog.articles.select{|page| page.data.featured rescue false}
+    blog.articles.select{|page| page.data.featured rescue false}.sort_by{|page| page.date}.reverse
   end
 
   def is_featured(page)
@@ -86,4 +86,3 @@ end
 
 # Make things pretty (Must be Last Activation)
 activate :directory_indexes
-

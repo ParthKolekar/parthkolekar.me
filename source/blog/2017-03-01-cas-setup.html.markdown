@@ -6,6 +6,7 @@ tags:
   - setup
   - CAS
   - tomcat8 
+featured: true
 ---
 
 CAS is a java program used to provide a unified login to people. It supports a

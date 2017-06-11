@@ -4,6 +4,7 @@ date: 2016-02-13 10:13 UTC
 tags: 
   - ctf
   - network
+featured: true
 ---
 
 > Find the flag.

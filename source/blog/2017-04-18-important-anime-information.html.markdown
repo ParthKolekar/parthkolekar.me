@@ -4,6 +4,7 @@ date: 2017-04-18 13:04 UTC
 tags: 
   - ctf 
   - forensics
+featured: true
 ---
 
 There is some really important anime information that I want to tell you guys. You absolutely definitely need to know this. It is a matter of life or death.

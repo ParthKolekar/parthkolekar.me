@@ -8,7 +8,7 @@ tags:
 
 The question text has the following html syntax.
 
-~~~html
+~~~ html
 <!--script src="https://felicity.iiit.ac.in/contest/breakin/static/jquery.min.js"></script-->
 ~~~
 

@@ -4,7 +4,7 @@ date: 2017-02-23 21:09 UTC
 tags: 
   - ctf
   - misc 
-  - Emilia
+featured: true
 ---
 
 Car Brand is a nice person. He wants to declare his love to his girl. Unfortunately, another trash girl also likes him. In order to announce to the trash girl about his feelings, he decides to put his confession into irrefutable words, and send it to everyone. The trash girl intercepts the message, but is unable to open it. Can you help the trash girl realise the feeling of Car Brand?

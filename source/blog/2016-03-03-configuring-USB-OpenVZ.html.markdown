@@ -6,6 +6,7 @@ tags:
   - setup
   - OpenVZ
   - usb_modeswitch 
+featured: true
 ---
 
 In order to setup a USB forwarding to a OpenVZ container,

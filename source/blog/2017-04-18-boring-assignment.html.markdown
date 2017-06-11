@@ -5,6 +5,7 @@ tags:
   - ctf
   - forensics
   - crypto
+featured: true
 ---
 
 There was once a guy,
