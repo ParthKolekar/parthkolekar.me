@@ -61,11 +61,16 @@ helpers do
   def is_featured(page)
     !(defined?(page.data.featured)).nil?
   end
+  
+  def is_unfeatured(page)
+    !(defined?(page.data.unfeatured)).nil?
+  end
 
   def related(page)
     related_pages = blog.tags.slice(*page.tags).values.first || []
     related_pages.concat featured
     related_pages.delete_if { |p| p == page }
+    related_pages.delete_if { |p| is_unfeatured(p) }
     related_pages
   end
 end
