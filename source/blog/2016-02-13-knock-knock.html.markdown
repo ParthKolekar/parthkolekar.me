@@ -127,7 +127,7 @@ display the change in your page. In either case, it is a hint that the http serv
 makes a miserable job of being able to report comments on the contest page, since it reloads the page every 10 seconds. It was expected that people will 
 keep this in mind when scanning for other ports, (since port knocking is usually on 3 ports). 
 
-The [question data](2016-02-13-knock-knock/question_data.html){:target="_blank"} shows "On the right path, you are". And this shows up as a result of sending a request to Mio:443 on the contest 
+The question data shows "On the right path, you are". And this shows up as a result of sending a request to Mio:443 on the contest 
 page url. (Which we hoped would happen automatically, if you kept a browser open on the contest page.). Even if this was not apparent, another hint was added
 during the contest.
 
