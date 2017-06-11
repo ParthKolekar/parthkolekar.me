@@ -18,13 +18,13 @@ Solution
 
 The hint says one fish twofish red fish blowfish. This is a vague hint. But it gives me two ciphers. twofish and blowfish. This is evident because the word "twofish" is a single word. The two hash functions can now be combined in a few different ways. If we call them h1 and h2, we can have the following.
 
-* h1(x) + h2(y) => Addition 
+* `h1(x) + h2(y)` => Addition 
 	* This does not work. Because the addition of two hash functions will make it impossible to recover the original hash.
 
-* h1(x) | h2(y) => Concatination
+* `h1(x) | h2(y)` => Concatination
 	* This is plausible. But look at the sizes of the hashes. For the concatination operation, the hash would be much much larger in size for a reasonably sized cipher text. 
 
-* h1(h2(x)) => Chaining
+* `h1(h2(x))` => Chaining
 	* This is plausible too. And it also benefits from a single cipher text instead of the multiple texts for the other ones.
 
 The 0x prefix explains that this is a hexadecimal.
