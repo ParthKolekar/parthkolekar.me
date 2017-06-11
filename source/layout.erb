@@ -36,11 +36,7 @@
 </head>
 <body>
   <div id="page-wrapper" class="page-wrapper">
-    <div id="navbars" class="animated navbars navbars-rotating">
-      <div id="home-button" data-page='home-content' class="navbar animated" onclick="window.location = '/';"> Home</div>
-      <div id="blog-button" data-page='blog-content' class="navbar animated" onclick="window.location = '/blog/';"> Blog</div>
-      <div class="rss-subscribe navbar animated" onclick="window.location = '/blog/feed.xml';"> RSS </div>
-    </div>
+<%= partial(:navbars) %>
     <div id="content" class="page animated">
       <div id="main-content" class="text page animated content">
         <div class="scroll-parent" id="container">
@@ -49,7 +45,7 @@
 <% if is_featured(current_page) %>
               <div style="display: flex; flex-direction: row;">
                 <div style="flex-grow: 1"></div>
-<%= partial :featured %>                
+<%= partial(:featured) %>                
               </div>
 <% end %>
               <h1 class="color-white" style="font-size: 3em"> <%= current_page.title %> </h1>
@@ -66,7 +62,7 @@
               <div style="width: 90%;">
 <%= yield %>
                 <div style="height: 50px; width: 100%"></div>    
-<%= partial :socialmedia %>                
+<%= partial(:socialmedia) %>
                 <div style="height: 50px; width: 100%"></div>    
                 <div itemprop="author" itemscope itemtype="http://schema.org/Person">
                   <div itemprop="name" class="color-white" style="font-size: 2em;text-align: right;"> Parth Kolekar </div>
