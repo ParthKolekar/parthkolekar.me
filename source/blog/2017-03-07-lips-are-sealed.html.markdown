@@ -4,7 +4,6 @@ date: 2017-03-07 19:03 UTC
 tags:
   - ctf
   - reverse
-featured: true
 ---
 
 A mythical beast has broken through the magical community and is wreaking havoc in the human world. Shrenik was assigned to go and subdue the said beast, but in his haste, he forgot to ask what manner of beast it was. He asks me to tell it to him, but through magics unknown their identities concealed, I'm sorry to say these lips are sealed. I do give him a file tho...
