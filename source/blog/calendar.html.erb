@@ -6,10 +6,13 @@ title: Blog of Parth Kolekar
 ---
 <% case page_type when 'day' %>
   <% date = Date.new(year, month, day).strftime('%B %e %Y') %>
+  <% date_url = "/blog/#{year}/#{month}/#{day}" %>
 <% when 'month' %>
   <% date = Date.new(year, month, 1).strftime('%B %Y') %>
+  <% date_url = "/blog/#{year}/#{month}" %>
 <% when 'year' %>
   <% date = Date.new(year, 1, 1).strftime('%Y') %>
+  <% date_url = "/blog/#{year}" %>
 <% end %>
 
 <!DOCTYPE html>
@@ -65,7 +68,8 @@ title: Blog of Parth Kolekar
   :paginate => paginate, 
   :prev_page => prev_page, 
   :num_pages => num_pages,
-  :next_page => next_page
+  :next_page => next_page,
+  :prefix => date_url
 }) %>
           </div>
         </div>

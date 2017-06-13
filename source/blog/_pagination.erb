@@ -6,19 +6,17 @@
   <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">&laquo; Prev </div>  
 <% end %>
 
-<!--
   <div style="display: flex; flex-direction: row; flex-wrap: wrap">
 <% for p in 1..num_pages %>
   <% if p == page_number %>
     <span class="navbar current" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);"><%= p %></span>
   <% elsif p == 1 %>
-    <a class="navbar" style="padding: 25px; border: 0;" href="/blog/"> 1 </a>  
+    <a class="navbar" style="padding: 25px; border: 0;" href="<%= prefix %>/"> 1 </a>  
   <% else %>
-    <a class="navbar" style="padding: 25px; border: 0;" href="/blog/page/<%= p %>"> <%= p %> </a>
+    <a class="navbar" style="padding: 25px; border: 0;" href="<%= prefix %>/page/<%= p %>"> <%= p %> </a>
   <% end %>
 <% end %>
   </div>
--->
 
 <% if paginate && next_page %>
   <a class="navbar" rel="next" style="padding: 25px; border: 0;" href="<%= next_page.url %>">Next &raquo; </a>  
