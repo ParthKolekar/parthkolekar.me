@@ -10,7 +10,7 @@ tags:
 
 ## Write-up
 
-by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+by [ParthKolekar](https://github.com/ParthKolekar)
 
 The question had a html comment in the source of the page
 

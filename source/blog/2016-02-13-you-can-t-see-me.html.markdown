@@ -16,7 +16,7 @@ tags:
 
 ## Write-up
 
-by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+by [ParthKolekar](https://github.com/ParthKolekar)
 
 The image of is 7 x 200 pixels. This is a hint to show that it mst be an ascii text where
 each pixel is actually a bit of the 8-bit ascii. 

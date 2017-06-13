@@ -23,7 +23,7 @@ you disappoint him.
 - Flag Format : /FLAG[A-Z]+/
 - Category : forensics, crypto
 
-Provided [boring-assignment](2017-04-18-boring-assignment/boring-assignment){:target="_blank"}
+Provided [boring-assignment](2017-04-18-boring-assignment/boring-assignment)
 
 Hint: Cipher used is a really popular cipher.
 

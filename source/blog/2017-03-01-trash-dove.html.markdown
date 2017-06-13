@@ -12,8 +12,8 @@ Find the flag that has been going viral all over Facebook.
 
 - Category : #misc, #stegno
 
-Provided [media](2017-03-01-trash-dove/media){:target="_blank"}
-Provided [media2 -- Easier](2017-03-01-trash-dove/media2){:target="_blank"}
+Provided [media](2017-03-01-trash-dove/media)
+Provided [media2 -- Easier](2017-03-01-trash-dove/media2)
 
 
 Solution

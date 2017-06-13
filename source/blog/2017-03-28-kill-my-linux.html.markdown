@@ -14,7 +14,7 @@ let this binary run, and it will eventually print the correct answer. :)
 
 - Flag Format : /flag{[a-z]+}/
 
-Provided [kill-my-linux](2017-03-28-kill-my-linux/kill-my-linux){:target="_blank"}
+Provided [kill-my-linux](2017-03-28-kill-my-linux/kill-my-linux)
 
 
 Solution

@@ -11,7 +11,7 @@ Find the flag.
 - Flag Format /flag:[a-zA-Z]+/
 - Category : stegno
 
-Provided [Macbeth.docx](2017-04-18-macbeth/Macbeth.docx){:target="_blank"}
+Provided [Macbeth.docx](2017-04-18-macbeth/Macbeth.docx)
 
 Hint : Not all characters are created equal.
 

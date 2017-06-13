@@ -14,7 +14,7 @@ tags:
 
 ## Write-up
 
-by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+by [ParthKolekar](https://github.com/ParthKolekar)
 
 The title has a hint towards the content of the strange image attached. 
 Eight Circles of Hell is the name given to Malbolge after its crazy twisted

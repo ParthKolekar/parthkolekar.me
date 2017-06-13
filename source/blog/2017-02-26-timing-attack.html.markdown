@@ -16,7 +16,7 @@ hostname: defunct
 
 - link: defunct
 
-Provided [server.js](2017-02-26-timing-attack/server.js){:target="_blank"}
+Provided [server.js](2017-02-26-timing-attack/server.js)
 
 
 Solution

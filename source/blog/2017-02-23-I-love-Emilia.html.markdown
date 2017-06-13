@@ -20,7 +20,7 @@ Brownie points to those who know what anime I am making this reference from and 
 - Flag Format : /{ flag : .+ }/
 
 
-Provided [server.py](2017-02-23-I-love-Emilia/server.py){:target="_blank"}
+Provided [server.py](2017-02-23-I-love-Emilia/server.py)
 
 
 Solution

@@ -17,7 +17,7 @@ Note: Some tools that you might use will mess up the file and also your system. 
 
 - Category : forensics
 
-Provided [important-anime-information](2017-04-18-important-anime-information/important-anime-information){:target="_blank"}
+Provided [important-anime-information](2017-04-18-important-anime-information/important-anime-information)
 
 Solution
 ========

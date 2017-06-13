@@ -71,7 +71,7 @@ helpers do
     related_pages.concat featured
     related_pages.delete_if { |p| p == page }
     related_pages.delete_if { |p| is_unfeatured(p) }
-    related_pages
+    related_pages.shuffle
   end
 end
 

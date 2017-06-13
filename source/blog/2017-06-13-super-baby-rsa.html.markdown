@@ -34,7 +34,7 @@ The steps to generate a RSA key is as follows.
 
 - Generate two large prime numbers `p`, and `q`. 
 - `n` = `p` * `q`. 
-- `e` is a number co-prime to `n` and 1 < `e` < `n`
+- `e` is a number co-prime to `lcm(p -1, q - 1)` and 1 < `e` < `n`
 - `d` = `1 / e mod (p - 1)(q - 1)`
 
 The `1 / e` in this case, should not be confused with division. It is the 
@@ -95,8 +95,8 @@ and then the hexadecimal is intepreted as an ASCII string.
 So now, it's time for some `sage`. Sage Math is a number crunching library with
 a ton of useful functions built-in.
 
-There are many alternatives give, but it is a personal preference of quite a few 
-people to use sage, and it is not without reason. 
+There are many alternatives to give, but it is a personal preference of quite a
+few people to use sage, and it is not without reason. 
 
 ~~~ python
 e = 65537

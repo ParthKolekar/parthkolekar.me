@@ -12,7 +12,7 @@ Bonus Brownie for guessing which series the reference is from.
 
 Flag Format: /flag{[a-zA-Z]+}/
 
-Provided [messsage](2017-03-07-lips-are-sealed/message){:target="_blank"}
+Provided [messsage](2017-03-07-lips-are-sealed/message)
 
 Solution
 ========

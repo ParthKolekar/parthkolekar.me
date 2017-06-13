@@ -20,11 +20,11 @@ tags:
 >
 > Then, handing out a flash drive to you he says, "Find the idiotic user".
 >
-> Link: [Here](2016-02-13-find-the-idiot/find-the-idiot.zip){:target="_blank"}
+> Link: [Here](2016-02-13-find-the-idiot/find-the-idiot.zip)
 
 ## Write-up
 
-by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+by [ParthKolekar](https://github.com/ParthKolekar)
 
 This is a straight forward question. You are given a zip file containing the
 entire filesystem dumps for the users. You have to run a dictionary attack on the

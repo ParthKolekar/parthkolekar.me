@@ -11,7 +11,7 @@ tags:
 
 ## Write-up
 
-by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+by [ParthKolekar](https://github.com/ParthKolekar)
 
 In this question the number given was a double type. So all one had to do 
 was to understand this part and after that it was just scanning and printing 

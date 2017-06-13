@@ -33,7 +33,7 @@ featured: true
 
 ## Write-up
 
-by [ParthKolekar](https://github.com/ParthKolekar){:target="_blank"}
+by [ParthKolekar](https://github.com/ParthKolekar)
 
 The solution of this is to send a tcp packet to port 1143. This changes
 the state of the web-server, and then you send a request to 
@@ -49,12 +49,12 @@ Which is our flag.
 ## Extended Write-up
 
 A little background on the server setup has to be given for this question.
-The way that Felicity handles request is by a main [haproxy](http://www.haproxy.org/){:target="_blank"} load
-balancer which forwards requests to internal nodes which are [lxc](https://linuxcontainers.org/){:target="_blank"} containers.
+The way that Felicity handles request is by a main [haproxy](http://www.haproxy.org/) load
+balancer which forwards requests to internal nodes which are [lxc](https://linuxcontainers.org/) containers.
 
 The main haproxy node is nicknamed `Yui`, all prefixed by `/contest` are sent to a contest portal
-node nicknamed `Taiga`. This is a [nginx](http://nginx.org/){:target="_blank"} server. The main website is handled 
-on a node nicknamed `Kurumi`. Kurumi is a [apache](http://httpd.apache.org/){:target="_blank"} server. 
+node nicknamed `Taiga`. This is a [nginx](http://nginx.org/) server. The main website is handled 
+on a node nicknamed `Kurumi`. Kurumi is a [apache](http://httpd.apache.org/) server. 
 
 The workflow is something like this 
 
@@ -67,7 +67,7 @@ The workflow is something like this
     http://Kurumi:80/request -> main website data via apache
 
 For this question a new node was introduced nicknamed `Mio`. This node had a ngnix server and 
-[sslh](http://www.rutschle.net/tech/sslh.shtml){:target="_blank"} daemon which does the following.
+[sslh](http://www.rutschle.net/tech/sslh.shtml) daemon which does the following.
 
     http://Mio:80/request -> http://Mio:8080/request via sslh
     http://Mio:8080/request -> Location: https://felicity.iiit.ac.in/request + X-Too-Insecure "Request Too Insecure" via nginx
@@ -118,7 +118,7 @@ The interesting points to note here are
 * If you have set the FWPRT, then the requests come with a TTL of (TTL - 1) because of the extra hop.
 * Instead of the sane tcp-rst which would allow a port scan to be completed quickly, we opted for icmp-host-unreachable. This marks all ports as filtered in nmap.
 
-The icmp rules were simply added. There was no real importance of it in the question. The reject with icmp-host-unreachable makes [nmap](https://nmap.org/){:target="_blank"} 
+The icmp rules were simply added. There was no real importance of it in the question. The reject with icmp-host-unreachable makes [nmap](https://nmap.org/) 
 slow. So slow that watching the nmap complete gave a time of 2hr to complete from my local network. A loop telnet, or netcat request over all ports works
 much better and allows for the port scanning to be over in minutes if not seconds. As given in the hint, it *DROP*s the packets. 
 
