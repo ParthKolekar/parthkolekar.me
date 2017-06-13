@@ -1,0 +1,82 @@
+---
+description: Blog of Parth Kolekar 
+title: Blog of Parth Kolekar
+---
+
+<% count_map = {} %>
+<% blog.tags.each do |tag, articles| %>
+  <% count_map[tag] = articles.length %>
+<% end %>
+<% min = count_map.values.min %>
+<% max = count_map.values.max %>
+<% weight_map = {} %>
+<% count_map.each do |tag, count| %>
+  <% weight_map[tag] = (Math.log(count) - Math.log(min))/(Math.log(max) - Math.log(min)) %>
+<% end %>
+
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+<head>
+  <meta charset="utf-8">
+  <meta itemprop="description" content="<%= "Tags - #{current_page.data.description}" %>">
+  <meta itemprop="image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200">
+  <meta itemprop="name" content="<%= "Tags - #{current_page.data.title}" %>">
+  <meta name="author" content="Parth Laxmikant Kolekar" />
+  <meta name="description" content="<%= "Tags - #{current_page.data.description}" %>">
+  <meta name="fb:admins" content="535949453">
+  <meta name="og:description" content="<%= "Tags - #{current_page.data.description}" %>">
+  <meta name="og:locale" content="en_US">
+  <meta name="og:site_name" content="<%= "Tags - #{current_page.data.title}" %>">
+  <meta name="og:title" content="<%= "Tags - #{current_page.data.title}" %>">
+  <meta name="og:type" content="website">
+  <meta name="og:url" content="<%= data.site.baseurl + current_page.url %>">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="@parthkolekar">
+  <meta name="twitter:description" content="<%= "Tags - #{current_page.data.description}" %>">
+  <meta name="twitter:image:src" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200">
+  <meta name="twitter:site" content="@parthkolekar">
+  <meta name="twitter:title" content="<%= "Tags - #{current_page.data.title}" %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta property="og:image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200" />
+  <meta property="og:site_name" content="<%= "Tags - #{current_page.data.title}" %>" />
+  <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
+  <title><%= "Tags - #{current_page.data.title}" %></title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+  <link rel="stylesheet" type="text/css" href="/blog/stylesheets/highlights.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+  <link rel="stylesheet" type="text/css" href="/blog/stylesheets/layout-breaker-hacks.css" />
+  <script src="https://use.fontawesome.com/24ce601765.js"></script>
+</head>
+<body>
+  <div id="page-wrapper" class="page-wrapper">
+<%= partial(:navbars) %>
+    <div id="content" class="page animated">
+      <div id="main-content" class="text page animated content">
+        <div class="scroll-parent" id="container">
+          <div class="scroll-child">
+            <div class="scroll-child-child content-rotating">
+              <h1 class="color-white" style="font-size: 3em"> <%= "Tags - #{current_page.data.title}" %> </h1>
+              <em class="color-lightgrey" style="font-size: 2em">
+              </em>
+            </div>
+            <hr style="width: 80%;" class="color-neon" />
+            <div class="scroll-child-child">
+              <div class="color-white" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around">
+<% weight_map.sort_by{ |key, value| key.downcase }.each do |tag, weight| %>
+				<a style="font-size: <%= 1 + (2 * weight) %>em; padding: 20px;" href="<%= tag_path tag %>" rel="tag"><%= tag %></a>
+<% end %>
+              </div>
+            </div>
+          </div>    
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.16/js/perfect-scrollbar.min.js"></script>
+  <script type="text/javascript">
+    var container = document.getElementById('container');
+    Ps.initialize(container);
+  </script>
+</body>
+</html>
+
