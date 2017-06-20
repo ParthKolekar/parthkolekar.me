@@ -5,14 +5,17 @@ description: Blog of Parth Kolekar
 title: Blog of Parth Kolekar
 ---
 <% case page_type when 'day' %>
-  <% date = Date.new(year, month, day).strftime('%B %e %Y') %>
-  <% date_url = "/blog/#{year}/#{month}/#{day}" %>
+  <% date = Date.new(year, month, day) %>
+  <% date_string = date.strftime('%B %e %Y') %>
+  <% date_url = date.strftime("/blog/%Y/%m/%d") %>
 <% when 'month' %>
-  <% date = Date.new(year, month, 1).strftime('%B %Y') %>
-  <% date_url = "/blog/#{year}/#{month}" %>
+  <% date = Date.new(year, month, 1) %>
+  <% date_string = date.strftime('%B %Y') %>
+  <% date_url = date.strftime("/blog/%Y/%m") %>
 <% when 'year' %>
-  <% date = Date.new(year, 1, 1).strftime('%Y') %>
-  <% date_url = "/blog/#{year}" %>
+  <% date = Date.new(year, 1, 1) %>
+  <% date_string = date.strftime('%Y') %>
+  <% date_url = date.strftime("/blog/%Y") %>
 <% end %>
 
 <!DOCTYPE html>
@@ -21,14 +24,14 @@ title: Blog of Parth Kolekar
   <meta charset="utf-8">
   <meta itemprop="description" content="<%= current_page.data.description %>">
   <meta itemprop="image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200">
-  <meta itemprop="name" content="<%= date + " - " + current_page.data.title %>">
+  <meta itemprop="name" content="<%= date_string + " - " + current_page.data.title %>">
   <meta name="author" content="Parth Laxmikant Kolekar" />
   <meta name="description" content="<%= current_page.data.description %>">
   <meta name="fb:admins" content="535949453">
   <meta name="og:description" content="<%= current_page.data.description %>">
   <meta name="og:locale" content="en_US">
-  <meta name="og:site_name" content="<%= date + " - " + current_page.data.title %>">
-  <meta name="og:title" content="<%= date + " - " + current_page.data.title %>">
+  <meta name="og:site_name" content="<%= date_string + " - " + current_page.data.title %>">
+  <meta name="og:title" content="<%= date_string + " - " + current_page.data.title %>">
   <meta name="og:type" content="website">
   <meta name="og:url" content="<%= data.site.baseurl + current_page.url %>">
   <meta name="twitter:card" content="summary">
@@ -36,12 +39,12 @@ title: Blog of Parth Kolekar
   <meta name="twitter:description" content="<%= current_page.data.description %>">
   <meta name="twitter:image:src" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200">
   <meta name="twitter:site" content="@parthkolekar">
-  <meta name="twitter:title" content="<%= date + " - " + current_page.data.title %>">
+  <meta name="twitter:title" content="<%= date_string + " - " + current_page.data.title %>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <meta property="og:image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200" />
-  <meta property="og:site_name" content="<%= date + " - " + current_page.data.title %>" />
+  <meta property="og:site_name" content="<%= date_string + " - " + current_page.data.title %>" />
   <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
-  <title><%= date + " - " + current_page.data.title %></title>
+  <title><%= date_string + " - " + current_page.data.title %></title>
   <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
   <link rel="stylesheet" type="text/css" href="/blog/stylesheets/highlights.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
@@ -56,7 +59,7 @@ title: Blog of Parth Kolekar
         <div class="scroll-parent" id="container">
           <div class="scroll-child">
             <div class="scroll-child-child content-rotating">
-              <h1 class="color-white" style="font-size: 3em"> <%= date + " - " + current_page.data.title %> </h1>
+              <h1 class="color-white" style="font-size: 3em"> <%= date_string + " - " + current_page.data.title %> </h1>
               <em class="color-lightgrey" style="font-size: 2em">
               </em>
             </div>
