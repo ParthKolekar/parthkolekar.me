@@ -1,6 +1,6 @@
 ---
 title: Bots are Awesome!
-date: 2016-02-13 10:13 UTC
+date: 2016-02-13 10:40 UTC
 tags: 
   - ctf
   - misc

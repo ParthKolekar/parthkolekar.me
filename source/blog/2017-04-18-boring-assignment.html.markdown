@@ -1,6 +1,6 @@
 ---
 title: Boring Assignment
-date: 2017-04-18 13:04 UTC
+date: 2017-04-18 13:44 UTC
 tags:
   - ctf
   - forensics

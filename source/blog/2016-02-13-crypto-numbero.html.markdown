@@ -1,6 +1,6 @@
 ---
 title: Crypto-Numbero
-date: 2016-02-13 10:13 UTC
+date: 2016-02-13 10:33 UTC
 tags: 
   - ctf
   - crypto

@@ -1,6 +1,6 @@
 ---
 title: Three Thieves Threw Trumpets Through Trees
-date: 2016-02-13 10:13 UTC
+date: 2016-02-13 10:53 UTC
 tags: 
   - ctf
   - stegno

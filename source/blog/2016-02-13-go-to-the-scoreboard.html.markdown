@@ -1,6 +1,6 @@
 ---
 title: Go To The Scoreboard
-date: 2016-02-13 10:13 UTC
+date: 2016-02-13 10:59 UTC
 tags: 
   - ctf
   - web
