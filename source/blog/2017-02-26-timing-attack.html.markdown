@@ -4,6 +4,8 @@ date: 2017-02-26 10:57 UTC
 tags:
   - ctf
   - misc 
+  - introductory
+  - web
 ---
 
 Once upon a time, there was a programmer. His name was Anshul. He did not know how to work with passwords. His friend Animesh took this opportunity to do jugaad and guess the passwords so that he is able to order a lot of free shirts from MustCapture. Help Animesh to find this password.

@@ -4,6 +4,10 @@ date: 2017-04-18 13:04 UTC
 tags: 
   - ctf 
   - forensics
+  - stegno
+  - parted
+  - kpartx
+  - exif
 featured: true
 ---
 

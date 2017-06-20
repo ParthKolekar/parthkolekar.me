@@ -4,6 +4,8 @@ date: 2017-05-01 23:05 UTC
 tags:
   - ctf 
   - crypto
+  - introductory
+  - hash-chaining
 ---
 
 one fish twofish red fish blowfish

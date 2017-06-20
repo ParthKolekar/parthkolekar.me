@@ -3,7 +3,6 @@ title: Felicity Throwback
 date: 2017-03-19 06:03 UTC
 tags: 
   - felicity
-  - sysadmin
   - throwback
 unfeatured: true
 ---

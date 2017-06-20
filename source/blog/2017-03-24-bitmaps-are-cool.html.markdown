@@ -4,6 +4,7 @@ date: 2017-03-24 20:03 UTC
 tags: 
   - ctf 
   - stegno
+  - bitmap
 ---
 
 Here is a tiny file that you might find fun to do while cramming other forms of knowledge in your head. :D

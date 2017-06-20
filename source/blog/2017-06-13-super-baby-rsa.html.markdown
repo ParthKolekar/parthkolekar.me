@@ -5,6 +5,7 @@ tags:
   - ctf
   - crypto
   - rsa
+  - introductory
 ---
 
 Time for RSA!

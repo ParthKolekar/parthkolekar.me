@@ -5,6 +5,7 @@ tags:
   - ctf
   - forensics
   - crypto
+  - python
 featured: true
 ---
 

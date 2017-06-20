@@ -5,6 +5,7 @@ tags:
   - ctf
   - pwn
   - binary
+  - format string
 ---
 
 - [zkp.c](2017-06-09-zkp-zero-knowledge-proofs/zkp.c)

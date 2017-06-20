@@ -4,6 +4,7 @@ date: 2017-03-01 05:42 UTC
 tags: 
   - ctf
   - misc
+  - stegno
 ---
 
 Find the flag that has been going viral all over Facebook.
