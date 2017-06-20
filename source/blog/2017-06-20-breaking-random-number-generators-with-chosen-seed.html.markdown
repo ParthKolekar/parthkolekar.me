@@ -1,5 +1,5 @@
 ---
-title: breaking-random-number-generators-with-chosen-seed
+title: Breaking Random Number Generators with Chosen Seed
 date: 2017-06-20 17:32 UTC
 tags: 
   - ctf
