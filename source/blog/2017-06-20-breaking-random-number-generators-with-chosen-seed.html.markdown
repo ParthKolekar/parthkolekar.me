@@ -126,3 +126,31 @@ answers.
 Flag
 ----
 flag{random number generators? Or did you break discrete log?}
+
+Additional Notes
+----------------
+
+An interesting observation was to be made when the above source is run as python2
+instead of python3. 
+
+The `input()` in python2 can be considered to be equivalent to `eval(raw_input())`
+
+Which meant that the problem would be solved quite easily by giving the input `"a"`.
+
+This would convert the 
+
+~~~ python
+_a = int(input("Now give me \"a\" back!\n"))
+~~~
+
+to become 
+
+~~~ python
+_a = int(eval(raw_input("Now give me \"a\" back!\n")))
+~~~
+
+This would make `_a` = int(a). Which would pass the test. I was intending
+to give this as the follow-up question. But I was unable to find a decent
+sandboxer. Because the eval() can be used to do a lot of un-intended things,
+the lack of a decent sandbox prevented me from giving this follow-up problem.
+
