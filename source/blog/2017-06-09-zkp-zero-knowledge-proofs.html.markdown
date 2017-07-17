@@ -8,17 +8,6 @@ tags:
   - format string
 ---
 
-- [zkp.c](2017-06-09-zkp-zero-knowledge-proofs/zkp.c)
-
-Please don't try to wreak my website :).
-
-Solution
---------
-
-A binary is given, a source file is given, which I especially like to display
-using my fancy new syntax highlighter, so I will post here as well even though
-the link is already specified.
-
 ~~~ c
 /* 
     ZKP : Zero Knwoledge Proof (https://en.wikipedia.org/wiki/Zero-knowledge_proof#Abstract_example)
@@ -102,7 +91,13 @@ int main(int argc, char const *argv[]) {
 }
 ~~~
 
-Let us examine the binary and see what it wants to do. It will 
+Please don't try to wreak my website :).
+
+Solution
+--------
+
+A binary is given, a source file is given.
+Let us examine the binary and see what it swants to do. It will 
 
 - Generate a random number
 - Loop until a you make a choice by pressing 'y'

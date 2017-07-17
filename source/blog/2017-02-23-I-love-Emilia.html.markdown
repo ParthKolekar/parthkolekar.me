@@ -17,12 +17,13 @@ Brownie points to those who know what anime I am making this reference from and 
 
 - Requirements : http request, devious mind, patience, brute force partially required.
 
-- link - defunct
-
 - Flag Format : /{ flag : .+ }/
 
 
-Provided [server.py](2017-02-23-I-love-Emilia/server.py)
+Solution
+========
+
+The source code for the problem is as shown.
 
 ~~~ python
 #!/usr/bin/env python3
@@ -86,10 +87,6 @@ class myHandler(BaseHTTPRequestHandler):
 httpd = HTTPServer(('', PORT), myHandler)
 httpd.serve_forever()
 ~~~
-
-
-Solution
-========
 
 To solve this question, you are required to send a query at the port and host that the server is setup on. So let us try that out. For this example, server is setup on localhost:7777.
 

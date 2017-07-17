@@ -16,9 +16,10 @@ hostname: defunct
 
 - Flag Format: r/[a-zA-Z]+/
 
-- link: defunct
+Solution
+========
 
-Provided [server.js](2017-02-26-timing-attack/server.js)
+The source code for the problem is as shown.
 
 ~~~ js
 const http = require('http');
@@ -59,8 +60,6 @@ server.on('request', function(request, response) {
 server.listen(8090);
 ~~~
 
-Solution
-========
 
 We are given a regex format for the flag. The regex quite literally means that there the flag is alphabets (upper or lower case) which are repeating, and is a single word.
 
@@ -369,5 +368,4 @@ We are rewarded for our efforts with this.
 
 Flag
 ====
-
 kyouko
