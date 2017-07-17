@@ -52,22 +52,12 @@ server_udp.bind(3679, '0.0.0.0');
 We start the web problem as usual. By sending it a request and seeing what it does. 
 
     $ curl -v http://yuno.parthkolekar.me:3679
-    * Rebuilt URL to: http://yuno.parthkolekar.me:3679/
-    *   Trying 35.164.64.27...
-    * TCP_NODELAY set
-    * Connected to yuno.parthkolekar.me (35.164.64.27) port 3679 (#0)
-    > GET / HTTP/1.1
-    > Host: yuno.parthkolekar.me:3679
-    > User-Agent: curl/7.51.0
-    > Accept: */*
-    >
+    ...
     * HTTP 1.0, assume close after body
     < HTTP/1.0 301 Moved Permanently
     < Server: multi-transport-server
     < Connection: close
-    <
-    * Curl_http_done: called premature == 0
-    * Closing connection 0
+    ...
     <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>wrong transport</title></head><body><h1>wrong transport</h1></body></html>
 
 We get an awkward response. We get a HTTP 301. But it is without any `Location`
