@@ -6,7 +6,6 @@ tags:
   - forensics
   - stegno
   - zip
-featured: false
 ---
 
 Find the flag, flag finder.
