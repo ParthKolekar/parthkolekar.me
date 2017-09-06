@@ -17,7 +17,7 @@ Flag Format: /flag{[a-zA-Z]+}/
 Provided [messsage](2017-03-07-lips-are-sealed/message)
 
 Solution
-========
+--------
 
 The trusted `file` is the first thing to do for anything, so, let's do that.
 
@@ -206,6 +206,6 @@ A hash lookup does indeed give us a match.
 
 
 Flag
-====
+----
 
 flag{dragon}

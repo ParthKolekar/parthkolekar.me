@@ -16,7 +16,7 @@ cf9afa7c2635c93cf93ef8035b2217c05e192e3d2547e084c86085c2b83ef2b5
 
 
 Solution
-========
+--------
 
 The hint says one fish twofish red fish blowfish. This is a vague hint. But it gives me two ciphers. twofish and blowfish. This is evident because the word "twofish" is a single word. The two hash functions can now be combined in a few different ways. If we call them h1 and h2, we can have the following.
 
@@ -40,6 +40,7 @@ Decryption of the cipher text with ECB, key `red fish`, and cipher `blowfish` gi
 Decryption of this with key "one fish", and cipher "twofish" gives us the flag "one fish twofish red fish blowfish".
 
 Flag
-====
+----
+
 one fish twofish red fish blowfish
 

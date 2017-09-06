@@ -11,14 +11,12 @@ Find the flag that has been going viral all over Facebook.
 
 - Flag Format: /flag{.+}/
 
-- Category : #misc, #stegno
-
 Provided [media](2017-03-01-trash-dove/media)
 Provided [media2 -- Easier](2017-03-01-trash-dove/media2)
 
 
 Solution
-========
+--------
 
 We try to inspect the file to see what it is. 
 
@@ -266,6 +264,6 @@ media2, which makes things easier is just media concatinated with itself a few t
 
 
 Flag
-====
+----
 
 trash dove

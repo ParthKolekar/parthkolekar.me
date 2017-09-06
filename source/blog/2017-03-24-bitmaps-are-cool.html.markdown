@@ -13,13 +13,11 @@ All the best for your exams.
 
 - Flag Format: /flag{.+}/
 
-- Category: #stegno
-
 Provided [text.bmp](2017-03-24-bitmaps-are-cool/text.bmp)
 
 
 Solution
-========
+--------
 
 This is a simple question meant to be a refresher while the examinations are going on. 
 

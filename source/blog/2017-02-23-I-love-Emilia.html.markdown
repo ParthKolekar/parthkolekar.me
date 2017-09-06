@@ -13,15 +13,13 @@ Car Brand is a nice person. He wants to declare his love to his girl. Unfortunat
 
 Brownie points to those who know what anime I am making this reference from and who both the girls are.
 
-- Category : #misc
-
 - Requirements : http request, devious mind, patience, brute force partially required.
 
 - Flag Format : /{ flag : .+ }/
 
 
 Solution
-========
+--------
 
 The source code for the problem is as shown.
 
@@ -195,5 +193,6 @@ Which is the only printable-ascii output that we get from the password. But it i
 
 
 Flag
-====
+----
+
 I love Emilia

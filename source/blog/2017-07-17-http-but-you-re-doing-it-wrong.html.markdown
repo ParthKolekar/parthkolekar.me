@@ -9,7 +9,7 @@ tags:
 Find the flag.
 
 Solution
-========
+--------
 
 The source of the problem is as shown. 
 
@@ -108,6 +108,7 @@ challenge as well, and the fact that I am getting lazy enough to reuse and
 arrogent enough to flaunt that fact instead of hiding it. 
 
 Flag
-====
+----
+
 a real testament to a work of art is the number of copies that it has inspired
 

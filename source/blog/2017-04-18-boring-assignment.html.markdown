@@ -22,14 +22,13 @@ you must at least try or else,
 you disappoint him.
 
 - Flag Format : /FLAG[A-Z]+/
-- Category : forensics, crypto
 
 Provided [boring-assignment](2017-04-18-boring-assignment/boring-assignment)
 
 Hint: Cipher used is a really popular cipher.
 
 Solution
-========
+--------
 
 Starting this with the usual.
 
@@ -144,5 +143,6 @@ Alphabet: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 The flag is CRYPTOREQUIRESTHEUSEOFMATHEMATICS
 
 Flag
-====
+----
+
 CRYPTOREQUIRESTHEUSEOFMATHEMATICS

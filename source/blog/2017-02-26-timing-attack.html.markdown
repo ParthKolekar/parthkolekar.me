@@ -12,12 +12,10 @@ Once upon a time, there was a programmer. His name was Anshul. He did not know h
 
 hostname: defunct
 
-- Category: #misc
-
 - Flag Format: r/[a-zA-Z]+/
 
 Solution
-========
+--------
 
 The source code for the problem is as shown.
 
@@ -367,5 +365,6 @@ We are rewarded for our efforts with this.
 	flag: kyouko* Rebuilt URL to: ctfclubiiit.tk:8080/
 
 Flag
-====
+----
+
 kyouko

@@ -19,12 +19,10 @@ Find the information.
 
 Note: Some tools that you might use will mess up the file and also your system. Root Responsible.
 
-- Category : forensics
-
 Provided [important-anime-information](2017-04-18-important-anime-information/important-anime-information)
 
 Solution
-========
+--------
 
     $ file important-anime-information
     important-anime-information: DOS/MBR boot sector; partition 1 : ID=0xee, start-CHS (0x0,0,1), end-CHS (0x3ff,254,63), startsector 1, 154756 sectors, extended partition table (last)
@@ -198,5 +196,5 @@ Woohoo! And behind door number one is...
 As an alternative, quite a few people tried to binwalk on the zip. That obtained the hax0r file but missed out on the first flag.
 
 Flag
-====
+----
 yandere are the best
