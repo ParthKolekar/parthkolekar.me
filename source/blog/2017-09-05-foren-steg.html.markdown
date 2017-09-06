@@ -9,7 +9,6 @@ tags:
 ---
 
 Find the flag, flag finder.
-¯\_(ツ)_/¯
 
 - Flag Format: /flag{.+}/
 
