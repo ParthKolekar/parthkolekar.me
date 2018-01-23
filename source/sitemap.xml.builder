@@ -5,7 +5,7 @@ xml.urlset 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9' do
       xml.loc "https://parthkolekar.me/#{page.destination_path.gsub('index.html', '')}"
       xml.lastmod File.mtime(page.source_file).iso8601
       xml.changefreq 'weekly'
-      xml.priority '0.5'
+      xml.priority !(defined?(page.data.priority)).nil? ? page.data.priority : '0.5'
     end
   end
 end
