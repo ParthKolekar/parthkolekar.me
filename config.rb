@@ -6,12 +6,12 @@ activate :autoprefixer do |prefix|
 end
 
 data.errors.each do |e|
-  proxy "error/#{e[:code]}.html", "error.html", :locals => { 
+  proxy "error/#{e[:code]}.html", "error.html", :locals => {
     :status_code => e[:code],
     :short => e[:short],
     :long => e[:long],
     :urlobtainer => e[:urlobtainer]
-  }, 
+  },
   :ignore => true
 end
 
@@ -61,7 +61,7 @@ helpers do
   def is_featured(page)
     !(defined?(page.data.featured)).nil?
   end
-  
+
   def is_unfeatured(page)
     !(defined?(page.data.unfeatured)).nil?
   end
