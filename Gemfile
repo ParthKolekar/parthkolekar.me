@@ -18,3 +18,7 @@ gem 'middleman-syntax'
 gem 'builder', '~> 3.0'
 gem 'nokogiri'
 gem 'kramdown'
+
+# Pin Thor
+gem 'thor', '~> 0.20.3'
+
