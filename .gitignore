@@ -19,3 +19,6 @@
 
 # Ignore similar
 .similar.db
+
+# Ignore bundle vendor
+vendor/
