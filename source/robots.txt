@@ -1,2 +1,7 @@
-User-Agent: *
-Disallow: 
+User-agent: *
+Sitemap: https://parthkolekar.me/sitemap.xml
+Disallow: /admin/
+
+User-agent: GPTBot
+Disallow: /
+

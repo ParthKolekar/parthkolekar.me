@@ -6,7 +6,7 @@ activate :autoprefixer do |prefix|
 end
 
 @app.data.errors.each do |e|
-  proxy "error/#{e[:code]}.html", "error.html", :locals => {
+  proxy "#{e[:code]}.html", "error.html", :locals => {
     :status_code => e[:code],
     :short => e[:short],
     :long => e[:long],
