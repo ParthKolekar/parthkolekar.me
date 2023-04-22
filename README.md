@@ -1,2 +1,2 @@
-# ParthKolekar.github.io
+# parthkolekar.me
 Web Page of the SprinkleberryMuffin
