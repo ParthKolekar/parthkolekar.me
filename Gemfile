@@ -3,22 +3,22 @@
 source 'https://rubygems.org'
 
 # For faster file watcher updates on Windows:
-gem 'wdm', '~> 0.1.0', platforms: [:mswin, :mingw]
+gem 'wdm', '~> 0.1', platforms: [:mswin, :mingw, :x64_mingw]
 
 # Windows does not come with time zone data
-gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
+gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby, :x64_mingw]
 
 # Middleman Gems
-gem 'middleman', '~> 4.1'
+gem 'middleman'
 gem 'middleman-autoprefixer'
 gem 'middleman-blog'
 gem 'middleman-livereload'
 gem 'middleman-syntax'
 
-gem 'builder', '~> 3.0'
+gem 'builder'
 gem 'nokogiri'
 gem 'kramdown'
 
-# Pin Thor
-gem 'thor', '~> 0.20.3'
+# Pin concurrent-ruby
+gem 'concurrent-ruby', '1.3.4'
 
