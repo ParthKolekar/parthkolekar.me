@@ -15,10 +15,9 @@ gem 'middleman-blog'
 gem 'middleman-livereload'
 gem 'middleman-syntax'
 
+# for sitemap.xml
 gem 'builder'
-gem 'nokogiri'
-gem 'kramdown'
 
-# Pin concurrent-ruby
-gem 'concurrent-ruby', '1.3.4'
+# for blog
+gem 'nokogiri'
 
