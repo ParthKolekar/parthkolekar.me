@@ -53,7 +53,6 @@ var main = (function() {
         
         if (activePage) {
             activePage.classList.remove('hidden');
-            activePage.classList.add('shown');
         }
 
         // Re-attach standard UI listeners like perfect-scrollbar if needed globally
@@ -61,6 +60,8 @@ var main = (function() {
         if (container && window.Ps) {
             Ps.initialize(container);
         }
+        
+        return activePage;
     };
 
     var initializeLinks = function() {
@@ -142,15 +143,19 @@ var main = (function() {
                 // Update document title
                 document.title = newDoc.title;
 
-                // Re-setup the new DOM structure (applying .hidden correctly first)
-                setupLayout();
+                // Re-setup the new DOM structure (leaves content hidden by default)
+                var newActivePage = setupLayout();
 
-                // Trigger entry transition in next animation frame
+                // To ensure CSS transitions apply, we must force a reflow before adding .shown
+                var allContents = document.querySelectorAll('.content');
+                allContents.forEach(function(el) {
+                    void el.offsetHeight; 
+                });
+
+                // Trigger entry transition
                 setTimeout(function() {
-                    activePage = findCurrentActiveContentBox();
-                    if (activePage) {
-                        activePage.classList.remove('hidden');
-                        activePage.classList.add('shown');
+                    if (newActivePage) {
+                        newActivePage.classList.add('shown');
                     }
                     isTransitioning = false;
                 }, 50);
