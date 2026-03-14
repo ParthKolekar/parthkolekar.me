@@ -15,10 +15,10 @@
   <div id="page-wrapper" class="page-wrapper">
 <%= partial(:navbars) %>
     <div id="content" class="page animated">
-      <div id="main-content" class="text page animated content">
+      <main id="main-content" class="text page animated content">
         <div class="scroll-parent" id="container">
-          <div class="scroll-child">
-            <div class="scroll-child-child content-rotating">
+          <article class="scroll-child">
+            <header class="scroll-child-child content-rotating">
 <% if is_featured(current_page) %>
               <div style="display: flex; flex-direction: row;">
                 <div style="flex-grow: 1"></div>
@@ -32,7 +32,7 @@
                 #<a href="<%= tag_path tag %>" rel="tag"><%= tag %></a>
 <% end %>
               </em>
-            </div>
+            </header>
             <hr style="width: 80%;" class="color-neon" />
             <div class="scroll-child-child content-rotating color-white" style="display: flex; flex-direction: row;">
               <div style="flex-grow: 1"></div>
@@ -64,9 +64,9 @@
               <div class="navbar" style="padding: 25px; border: 0; background-color: rgba(50,50,50,.65);">Next &raquo; </div>
 <% end %>
             </div>
-          </div>
+          </article>
         </div>
-      </div>
+      </main>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.16/js/perfect-scrollbar.min.js"></script>
