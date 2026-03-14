@@ -86,7 +86,7 @@ We also see some other omp related functions like GOMP_parallel@plt
 This means that the file was compiled with OpenMP, a library to do
 multi-processing in C.
 
-We decompile the main function to see what exactly is being parallelized.
+We decompile the main function to see what exactly is being parallelised.
 
     $ objdump -S kill-my-linux
     ...
@@ -166,7 +166,7 @@ I also find another interesting function call.
 
 That is the pointer to where `/sbin/reboot` string is. 
 
-So we have this program doing parallelized fork, along with parallelized reboots, along with
+So we have this program doing parallelised fork, along with parallelised reboots, along with
 a bunch of usleep function calls in the middle.
 
 I see in the above `info functions` that there is a call to putchar, memset, and sleep. Of which

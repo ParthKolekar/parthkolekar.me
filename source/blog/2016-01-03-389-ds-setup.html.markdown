@@ -68,7 +68,7 @@ of generating certificates is quite different from other methods that you would 
 Unlike in other places, simply using `easy-rsa` would not work, as you need to generate a CSR and make
 a valid certificate for yourself. 
 
-In addition, the certificate must be authorized to perform the actions. You cannot just assign any
+In addition, the certificate must be authorised to perform the actions. You cannot just assign any
 arbitrary certificate for this. Doing that breaks 389-ds.
 
 So, first, you need to gernerate a CSR from 389-ds console. Just log in to the console, and navigate to
