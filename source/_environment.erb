@@ -1,0 +1,25 @@
+            <div class="scroll-child-child">
+              <h3 class="color-white" style="font-size: 2em">$ env</h3>
+              <h3 class="color-lightgrey" style="font-size: 1.8em">My Workspace Environment</h3>
+              <div style="height: 3em;">&nbsp;</div>
+              <div class="color-white" style="font-size: 1.4em; display: flex; flex-direction: column;">
+                <h4> Operating System </h4>
+                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
+<% data.skills.environment.os.each do |os| %>
+                  <li style="min-width: 50%;"> <%= os %> </li>
+<% end %>
+                </ul>
+                <h4> Text Editors </h4>
+                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
+<% data.skills.environment.editors.each do |editor| %>
+                  <li style="min-width: 50%;"> <%= editor %> </li>
+<% end %>
+                </ul>
+                <h4> Version Control System </h4>
+                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
+<% data.skills.environment.vcs.each do |vcs| %>
+                  <li style="min-width: 50%;"> <%= vcs %> </li>
+<% end %>
+                </ul>
+              </div>
+            </div>

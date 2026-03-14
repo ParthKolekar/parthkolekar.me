@@ -1,0 +1,19 @@
+            <div class="scroll-child-child">
+              <h3 class="color-white" style="font-size: 2em">$ lshw</h3>
+              <h3 class="color-lightgrey" style="font-size: 1.8em">Skill Set</h3>
+              <div style="height: 3em;">&nbsp;</div>
+              <div class="color-white" style="font-size: 1.4em; display: flex; flex-direction: column;">
+                <h4>I am proficient in... </h4>
+                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
+<% data.skills.proficient.each do |skill| %>
+                  <li style="min-width: 50%;"> <%= skill %> </li>
+<% end %>
+                </ul>
+                <h4>I have experience in... </h4>
+                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
+<% data.skills.experience.each do |skill| %>
+                  <li style="min-width: 50%;"> <%= skill %> </li>
+<% end %>
+                </ul>
+              </div>
+            </div>

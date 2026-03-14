@@ -4,39 +4,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/Person">
 <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-50512770-4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-50512770-4');
-</script>
-  <meta charset="utf-8">
-  <meta itemprop="description" content="Parth Kolekar - Ops / Dev / Network / Part-time Code Magician"/>
-  <meta itemprop="image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200">
-  <meta itemprop="name" content="Parth Laxmikant Kolekar">
-  <meta name="author" content="Parth Laxmikant Kolekar"/>
-  <meta name="description" content="Parth Kolekar - Ops / Dev / Network / Part-time Code Magician"/>
-  <meta name="fb:admins" content="535949453">
-  <meta name="og:description" content="Parth Kolekar - Ops / Dev / Network / Part-time Code Magician"/>
-  <meta name="og:locale" content="en_US">
-  <meta name="og:site_name" content="Parth Laxmikant Kolekar">
-  <meta name="og:title" content="Parth Laxmikant Kolekar">
-  <meta name="og:type" content="website">
-  <meta name="og:url" content="<%= data.site.baseurl + current_page.url %>">
-  <meta name="og:url" content="https://parthkolekar.me/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:creator" content="@parthkolekar">
-  <meta name="twitter:description" content="Parth Kolekar - Ops / Dev / Network / Part-time Code Magician"/>
-  <meta name="twitter:image:src" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200">
-  <meta name="twitter:site" content="@parthkolekar">
-  <meta name="twitter:title" content="Parth Laxmikant Kolekar">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
-  <meta property="og:image" content="https://www.gravatar.com/avatar/74f1a4338f4d66b21795931ef946797c.jpg?s=200"/>
-  <meta property="og:site_name" content="Parth Laxmikant Kolekar"/>
-  <title>Parth Laxmikant Kolekar</title>
+<%= partial(:meta) %>
   <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
   <script src="https://use.fontawesome.com/24ce601765.js"></script>
@@ -47,116 +15,24 @@
       <div id="home-button" data-page='home-content' class="navbar animated"> Home </div>
       <div id="contact-button" data-page='contact-content' class="navbar animated"> Contact </div>
       <a href='/blog/'><div id="blog-button" data-page='blog-content' class="navbar animated"> Blog </div></a>
-      <a href="/resume"><div id="resume-button" data-page='resume-content' class="navbar animated"> Résumé </div></a>
+      <a href="/resume"><div id="resume-button" data-page='resume-content' class="navbar animated"> R&eacute;sum&eacute; </div></a>
     </div>
     <div id="content" class="page animated">
       <div id="home-content" class="text animated content">
         <div class="scroll-parent" id="container">
           <div class="scroll-child">
-            <div class="scroll-child-child">
-              <h1 class="color-white" style="font-size: 3em">Parth Laxmikant Kolekar</h1>
-              <h2 class="color-lightgrey" style="font-size: 2.5em">Ops / Dev / Network</h2>
-            </div>
+<%= partial(:bio) %>
             <hr style="width: 80%;" class="color-neon" />
-            <div class="scroll-child-child">
-              <h3 class="color-white" style="font-size: 2em">$ whoami</h3>
-              <h3 class="color-lightgrey" style="font-size: 1.8em">About Me</h3>
-              <div style="height: 3em;">&nbsp;</div>
-              <div class="color-white" style="font-size: 1.4em;">
-                <p>
-                  Greetings Visitor! and welcome to the home page of Parth (that is me).
-                </p>
-                <p>
-                  I am a Site Reliability Engineer.
-                </p>
-                <p>
-                  I &hearts; FOSS, Linux, Networks, Systems Administration, and full-stack web development.
-                </p>
-                <p>
-                  I like structure and order, and love it when everything comes together. I learn fast, focus on the details that no one sees, and optimize till I am content.
-                </p>
-                <p>
-                  I also go by the alias of <em>ParthKolekar</em> (obvious), and <em>SprinkleberryMuffin</em> (not so obvious).
-                </p>
-                <p>
-                  Why Sprinkleberry Muffin? Why not Blueberry? Strawberry? or Pinkberry? Why not Pancake? or Crêpe? or Melonpan? I'd tell you, but I'd rather not.
-                </p>
-              </div>
-            </div>
+<%= partial(:skills) %>
             <hr style="width: 80%;" class="color-neon" />
-            <div class="scroll-child-child">
-              <h3 class="color-white" style="font-size: 2em">$ lshw</h3>
-              <h3 class="color-lightgrey" style="font-size: 1.8em">Skill Set</h3>
-              <div style="height: 3em;">&nbsp;</div>
-              <div class="color-white" style="font-size: 1.4em; display: flex; flex-direction: column;">
-                <h4>I am proficient in... </h4>
-                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
-                  <li style="min-width: 50%;"> Linux Administration </li>
-                  <li style="min-width: 50%;"> Python </li>
-                  <li style="min-width: 50%;"> Java </li>
-                  <li style="min-width: 50%;"> Shell Scripting </li>
-                  <li style="min-width: 50%;"> Virtualization </li>
-                </ul>
-                <h4>I have experience in... </h4>
-                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
-                  <li style="min-width: 50%;"> C </li>
-                  <li style="min-width: 50%;"> C++ </li>
-                  <li style="min-width: 50%;"> Django </li>
-                  <li style="min-width: 50%;"> Nagios </li>
-                  <li style="min-width: 50%;"> Perl </li>
-                  <li style="min-width: 50%;"> PHP </li>
-                  <li style="min-width: 50%;"> SQL </li>
-                </ul>
-              </div>
-            </div>
-            <hr style="width: 80%;" class="color-neon" />
-            <div class="scroll-child-child">
-              <h3 class="color-white" style="font-size: 2em">$ env</h3>
-              <h3 class="color-lightgrey" style="font-size: 1.8em">My Workspace Environment</h3>
-              <div style="height: 3em;">&nbsp;</div>
-              <div class="color-white" style="font-size: 1.4em; display: flex; flex-direction: column;">
-                <h4> Operating System </h4>
-                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
-                  <li style="min-width: 50%;"> Ubuntu LTS </li>
-                  <li style="min-width: 50%;"> CentOS </li>
-                </ul>
-                <h4> Text Editors </h4>
-                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
-                  <li style="min-width: 50%;"> IntelliJ Idea </li>
-                  <li style="min-width: 50%;"> Vim </li>
-                  <li style="min-width: 50%;"> Visual Studio Code </li>
-                </ul>
-                <h4> Version Control System </h4>
-                <ul style="margin: 0.5em; padding: 0.2em; display: flex; flex-wrap: wrap">
-                  <li style="min-width: 50%;"> Git </li>
-                </ul>
-              </div>
-            </div>
+<%= partial(:environment) %>
           </div>
         </div>
       </div>
       <div id="contact-content" class="text animated hidden content">
         <div class="scroll-parent">
           <div class="scroll-child">
-            <div class="scroll-child-child">
-              <h3 class="color-white" style="font-size: 2em"> $ write parth pts/1 </h3>
-              <h3 class="color-lightgrey" style="font-size: 1.8em">Contact Me</h3>
-              <div style="height: 3em;">&nbsp;</div>
-              <div style="display: flex; flex-grow: 1; justify-content: center; align-items: center; flex-wrap: wrap;">
-                <a style="min-width: 40%; padding: 20px; text-align: center;" class="color-white" href="https://twitter.com/parthkolekar" aria-label="Twitter">
-                  <span style="padding: 10px; margin: 10px" class="fa fa-4x fa-twitter"></span>
-                </a>
-                <a style="min-width: 40%; padding: 20px; text-align: center;" class="color-white" href="https://github.com/parthkolekar" aria-label="Github">
-                  <span style="padding: 10px; margin: 10px" class="fa fa-4x fa-github"></span>
-                </a>
-                <a style="min-width: 40%; padding: 20px; text-align: center;" class="color-white" href="https://www.linkedin.com/in/parthkolekar" aria-label="LinkedIn">
-                  <span style="padding: 10px; margin: 10px" class="fa fa-4x fa-linkedin"></span>
-                </a>
-                <a style="min-width: 40%; padding: 20px; text-align: center;" class="color-white" href="mailto:parthkolekar+website@gmail.com" aria-label="Email">
-                  <span style="padding: 10px; margin: 10px" class="fa fa-4x fa-envelope-o"></span>
-                </a>
-              </div>
-            </div>
+<%= partial(:contact) %>
           </div>
         </div>
       </div>

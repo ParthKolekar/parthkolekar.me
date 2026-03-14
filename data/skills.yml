@@ -1,0 +1,25 @@
+proficient:
+  - Linux Administration
+  - Python
+  - Java
+  - Shell Scripting
+  - Virtualization
+experience:
+  - C
+  - C++
+  - Django
+  - Nagios
+  - Perl
+  - PHP
+  - SQL
+
+environment:
+  os:
+    - Ubuntu LTS
+    - CentOS
+  editors:
+    - IntelliJ Idea
+    - Vim
+    - Visual Studio Code
+  vcs:
+    - Git
