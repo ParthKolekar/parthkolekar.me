@@ -30,7 +30,9 @@ var main = (function() {
     };
 
     // Initialize layout (both for first load and post-fetch swaps)
-    var setupLayout = function() {
+    // When animateIn is true, leaves activePage in .hidden state so caller can animate it.
+    // When animateIn is false (initial page load), immediately shows the activePage.
+    var setupLayout = function(animateIn) {
         navbars = document.querySelectorAll('.navbar');
         content = document.querySelectorAll('.content');
         
@@ -38,22 +40,23 @@ var main = (function() {
         var hashPage = getActivePage();
         
         if (hashPage && document.getElementById(hashPage.id)) {
-            // Hash routing is present in this DOM (i.e. we are on index.html)
             activePage = hashPage;
         } else {
-            // Normal page (blog, etc.) or no hash, just default to first content
             activePage = content[0];
         }
 
-        // Hide all contents and show the active one
+        // Hide all contents
         for (var i = content.length - 1; i >= 0; i--) {
             content[i].classList.remove('shown');
             content[i].classList.add('hidden');
         }
         
-        if (activePage) {
+        if (!animateIn && activePage) {
+            // Initial load: show immediately, no animation needed
             activePage.classList.remove('hidden');
+            activePage.classList.add('shown');
         }
+        // If animateIn is true, leave activePage with .hidden so caller can animate
 
         // Re-attach standard UI listeners like perfect-scrollbar if needed globally
         var container = document.getElementById('container');
@@ -143,18 +146,18 @@ var main = (function() {
                 // Update document title
                 document.title = newDoc.title;
 
-                // Re-setup the new DOM structure (leaves content hidden by default)
-                var newActivePage = setupLayout();
+                // Re-setup the new DOM structure — keep content in .hidden state
+                var newActivePage = setupLayout(true);
 
-                // To ensure CSS transitions apply, we must force a reflow before adding .shown
-                var allContents = document.querySelectorAll('.content');
-                allContents.forEach(function(el) {
-                    void el.offsetHeight; 
-                });
+                // Force a reflow so browser registers the .hidden state
+                if (newActivePage) {
+                    void newActivePage.offsetHeight;
+                }
 
-                // Trigger entry transition
+                // Swap .hidden → .shown to trigger the CSS slide-in transition
                 setTimeout(function() {
                     if (newActivePage) {
+                        newActivePage.classList.remove('hidden');
                         newActivePage.classList.add('shown');
                     }
                     isTransitioning = false;
@@ -182,7 +185,7 @@ var main = (function() {
     };
 
     var init = function() {
-        setupLayout();
+        setupLayout(false);  // Initial load: show immediately, no animation
         initializeLinks();
 
         // Handle Back/Forward browser buttons
