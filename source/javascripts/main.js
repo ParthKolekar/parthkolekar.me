@@ -31,6 +31,16 @@ var main = (function() {
         return content[0] || null;
     };
 
+    // Check if a URL is the home page
+    var isHomePage = function(pathname) {
+        return pathname === '/' || pathname === '/index.html';
+    };
+
+    // Check if a URL is a blog page
+    var isBlogPage = function(pathname) {
+        return pathname.indexOf('/blog') === 0;
+    };
+
     // Intercept all internal link clicks for PJAX navigation
     var initializeLinks = function() {
         document.body.addEventListener('click', function(event) {
@@ -44,6 +54,16 @@ var main = (function() {
 
             // Skip hash-only links (handled by page-specific scripts)
             if (a.pathname === window.location.pathname && a.hash) return;
+
+            // Skip PJAX for home <-> blog transitions (blog needs its own CSS/JS)
+            var currentIsHome = isHomePage(window.location.pathname);
+            var currentIsBlog = isBlogPage(window.location.pathname);
+            var targetIsHome = isHomePage(a.pathname);
+            var targetIsBlog = isBlogPage(a.pathname);
+
+            if ((currentIsHome && targetIsBlog) || (currentIsBlog && targetIsHome)) {
+                return; // Let the browser handle this navigation normally
+            }
 
             event.preventDefault();
             if (isTransitioning) return;
