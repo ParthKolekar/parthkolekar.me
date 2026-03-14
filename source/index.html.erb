@@ -11,14 +11,14 @@
 </head>
 <body>
   <div id="page-wrapper" class="page-wrapper">
-    <div id="navbars" class="animated navbars navbars-rotating">
-      <div id="home-button" data-page='home-content' class="navbar animated"> Home </div>
-      <div id="contact-button" data-page='contact-content' class="navbar animated"> Contact </div>
-      <a href='/blog/'><div id="blog-button" data-page='blog-content' class="navbar animated"> Blog </div></a>
-      <a href="/resume"><div id="resume-button" data-page='resume-content' class="navbar animated"> R&eacute;sum&eacute; </div></a>
-    </div>
-    <div id="content" class="page animated">
-      <div id="home-content" class="text animated content">
+    <nav id="navbars" class="animated navbars navbars-rotating">
+      <a href="/#/home" id="home-button" data-page='home-content' class="navbar animated" style="text-decoration: none;"> Home </a>
+      <a href="/#/contact" id="contact-button" data-page='contact-content' class="navbar animated" style="text-decoration: none;"> Contact </a>
+      <a href='/blog/' id="blog-button" data-page='blog-content' class="navbar animated" style="text-decoration: none;"> Blog </a>
+      <a href="/resume" id="resume-button" data-page='resume-content' class="navbar animated" style="text-decoration: none;"> R&eacute;sum&eacute; </a>
+    </nav>
+    <main id="content" class="page animated">
+      <section id="home-content" class="text animated content">
         <div class="scroll-parent" id="container">
           <div class="scroll-child">
 <%= partial(:bio) %>
@@ -28,15 +28,15 @@
 <%= partial(:environment) %>
           </div>
         </div>
-      </div>
-      <div id="contact-content" class="text animated hidden content">
+      </section>
+      <section id="contact-content" class="text animated hidden content">
         <div class="scroll-parent">
           <div class="scroll-child">
 <%= partial(:contact) %>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.16/js/perfect-scrollbar.min.js"></script>
   <script type="text/javascript">
@@ -44,6 +44,64 @@
     Ps.initialize(container);
   </script>
   <script src='https://js.sentry-cdn.com/86cd5456d19942879f06530866c31798.min.js' crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    (function() {
+      var TRANSITION_DURATION = 1000;
+      var homeContent = document.getElementById('home-content');
+      var contactContent = document.getElementById('contact-content');
+
+      var getHashPage = function(hash) {
+        var h = decodeURI(hash || location.hash).replace(/\/$/, '').replace(/^#/, '').replace(/^\//, '');
+        return h === 'contact' ? 'contact' : 'home';
+      };
+
+      var showPage = function(page, animate) {
+        var show = (page === 'contact') ? contactContent : homeContent;
+        var hide = (page === 'contact') ? homeContent : contactContent;
+
+        if (animate) {
+          hide.classList.remove('shown');
+          hide.classList.add('hidden');
+          setTimeout(function() {
+            show.classList.remove('hidden');
+            show.classList.add('shown');
+          }, TRANSITION_DURATION);
+        } else {
+          hide.classList.remove('shown');
+          hide.classList.add('hidden');
+          show.classList.remove('hidden');
+          show.classList.add('shown');
+        }
+      };
+
+      // Initial page load
+      showPage(getHashPage(), false);
+
+      // Handle Home/Contact nav clicks
+      var homeBtn = document.getElementById('home-button');
+      var contactBtn = document.getElementById('contact-button');
+
+      if (homeBtn) {
+        homeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          history.pushState(null, null, '/#/home');
+          showPage('home', true);
+        });
+      }
+      if (contactBtn) {
+        contactBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          history.pushState(null, null, '/#/contact');
+          showPage('contact', true);
+        });
+      }
+
+      // Handle back/forward for hash changes
+      window.addEventListener('popstate', function() {
+        showPage(getHashPage(), true);
+      });
+    })();
+  </script>
   <script type="text/javascript" src="/javascripts/main.js"></script>
 </body>
 </html>
